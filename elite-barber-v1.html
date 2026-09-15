@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Elite Barber — Barbier à Colmar, 5 rue Saint-Éloi</title>
+<meta name="description" content="Elite Barber, barbier à Colmar, 5 rue Saint-Éloi. Coupe, barbe, coupe enfant. Réservation en ligne gratuite, confirmation immédiate.">
+<meta name="theme-color" content="#17120F">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Elite Barber — Barbier à Colmar">
+<meta property="og:description" content="Coupe, barbe, précision. 5 rue Saint-Éloi, 68000 Colmar. Réservation en ligne, confirmation immédiate.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BarberShop","name":"Elite Barber","telephone":"+33605761431","priceRange":"€€","image":[],"address":{"@type":"PostalAddress","streetAddress":"5 rue Saint-Éloi","postalCode":"68000","addressLocality":"Colmar","addressCountry":"FR"},"sameAs":["https://www.planity.com/mg-elite-barber-68000-colmar","https://maps.google.com/?cid=609345516803650696"],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Wednesday","Friday","Saturday"],"opens":"09:00","closes":"19:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":["Thursday"],"opens":"09:00","closes":"12:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":["Thursday"],"opens":"14:00","closes":"22:00"}]}
+</script>
+<style>
+  html { overflow-x: clip; color-scheme: dark; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: #17120F; color: #F1EAE0; font-family: "Bricolage Grotesque", "Helvetica Neue", Helvetica, sans-serif; font-size: clamp(17px, 1.05vw, 18px); line-height: 1.55; letter-spacing: -0.005em; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  h1, h2, h3, p, figure { margin: 0; }
+  a { color: #F1EAE0; text-decoration-thickness: 1px; text-underline-offset: 5px; text-decoration-color: rgba(241,234,224,0.45); }
+  a:hover { color: #F1EAE0; text-decoration-color: #F1EAE0; }
+  *:focus-visible { outline: 2px solid #F1EAE0; outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</helmet>
+
+<sc-if value="{{ sceneOn }}" hint-placeholder-val="{{ true }}">
+  <div style="position:fixed;inset:0;z-index:0;pointer-events:none">
+    <x-import component-from-global-scope="barber-scene" from="./barber-scene.js" hint-size="100%,100%"></x-import>
+  </div>
+</sc-if>
+<div style="position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(125% 105% at 50% 44%, rgba(23,18,15,0) 40%, rgba(23,18,15,0.5) 100%)"></div>
+
+<a href="#contenu" style="position:absolute;top:10px;left:-9999px;z-index:80;background:#241C17;color:#F1EAE0;padding:11px 18px;border-radius:2px;text-decoration:none;font-size:15px" style-focus="left:10px">Aller au contenu</a>
+
+<header style="position:fixed;top:0;left:0;right:0;z-index:50;height:64px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 clamp(20px,5vw,96px)">
+  <div style="position:absolute;inset:0;background:rgba(23,18,15,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(241,234,224,0.14);transition:opacity .28s ease;pointer-events:none;opacity:{{ headerOpacity }}"></div>
+  <a href="#hero" style="position:relative;display:inline-flex;align-items:center;min-height:44px;font-family:'Instrument Serif',Georgia,serif;font-size:23px;line-height:1;letter-spacing:0.005em;text-decoration:none;white-space:nowrap">Elite Barber</a>
+  <nav aria-label="Sections" style="position:relative;display:flex;align-items:center;gap:clamp(16px,2vw,30px);font-size:15px">
+    <sc-if value="{{ wideNav }}" hint-placeholder-val="{{ true }}">
+      <a href="#prestations" style="display:inline-flex;align-items:center;min-height:44px;text-decoration:none">Prestations</a>
+    </sc-if>
+    <sc-if value="{{ wideNav }}" hint-placeholder-val="{{ true }}">
+      <a href="#salon" style="display:inline-flex;align-items:center;min-height:44px;text-decoration:none">Le salon</a>
+    </sc-if>
+    <a href="#infos" style="display:inline-flex;align-items:center;min-height:44px;text-decoration:none">Infos</a>
+  </nav>
+</header>
+
+<main id="contenu" style="position:relative;z-index:10;max-width:1440px;margin:0 auto">
+
+  <section id="hero" style="position:relative;min-height:100dvh;display:flex;flex-direction:column;justify-content:flex-end;padding:120px clamp(20px,5vw,96px) 152px">
+    <div aria-hidden="true" style="position:absolute;top:0;bottom:-6vh;left:0;right:8%;background:linear-gradient(90deg, rgba(23,18,15,0.7) 0%, rgba(23,18,15,0.7) 62%, rgba(23,18,15,0) 80%);mask-image:linear-gradient(90deg, transparent 0%, #000 5%, #000 100%);-webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 5%, #000 100%);pointer-events:none"></div>
+    <div style="position:relative;max-width:min(100%,640px)">
+      <h1 style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(44px,9.2vw,120px);line-height:0.94;letter-spacing:-0.02em;overflow-wrap:break-word;text-wrap:pretty">Coupe, barbe, précision.</h1>
+      <p style="margin-top:clamp(22px,2.4vw,34px);max-width:44ch;text-wrap:pretty">Barbier à Colmar, 5 rue Saint-Éloi. Réservation en ligne, confirmation immédiate.</p>
+      <p style="margin-top:14px;color:#A79A8B;font-size:15px">{{ googleProof }}</p>
+      <a href="{{ ctaHref }}" target="{{ ctaTarget }}" rel="noopener noreferrer" style="display:inline-flex;align-items:center;min-height:44px;margin-top:22px;font-weight:500">Réserver un créneau</a>
+    </div>
+    <p aria-hidden="true" style="position:relative;margin-top:clamp(44px,9vh,96px);color:#A79A8B;font-size:14px">Défiler</p>
+  </section>
+
+  <section id="atelier" aria-labelledby="atelier-t" style="position:relative;margin-top:clamp(120px,20vh,232px);padding:0 clamp(20px,5vw,96px)">
+    <div aria-hidden="true" style="position:absolute;top:-5vh;bottom:-5vh;left:0;right:10%;background:linear-gradient(90deg, rgba(23,18,15,0.7) 0%, rgba(23,18,15,0.7) 72%, rgba(23,18,15,0) 88%);mask-image:linear-gradient(90deg, transparent 0%, #000 5%, #000 100%);-webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 5%, #000 100%);pointer-events:none"></div>
+    <div style="position:relative;max-width:min(100%,560px)">
+      <h2 id="atelier-t" style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(30px,4.2vw,56px);line-height:1.04;letter-spacing:-0.015em">L'atelier</h2>
+      <p style="margin-top:26px;max-width:58ch;text-wrap:pretty">Vous entrez, vous vous asseyez, on travaille. Une coupe précise, une barbe nette, et un moment de calme dans la journée. Coupe et barbe&nbsp;: 30&nbsp;€, réservation en ligne gratuite, paiement sur place. Le salon est au 5 rue Saint-Éloi, à quelques minutes du centre de Colmar. Vous ressortez à l'heure prévue, avec la coupe que vous êtes venu chercher.</p>
+      <div style="margin-top:30px;display:grid;gap:9px;color:#A79A8B;font-size:15px">
+        <p>Vingt à trente minutes par prestation.</p>
+        <p>Outils désinfectés entre chaque client.</p>
+        <sc-if value="{{ showWalkIn }}" hint-placeholder-val="{{ false }}">
+          <p>Accueil sans rendez-vous selon disponibilité.</p>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <section id="prestations" aria-labelledby="prest-t" style="position:relative;margin-top:clamp(120px,20vh,232px);padding:0 clamp(20px,5vw,96px)">
+    <div aria-hidden="true" style="position:absolute;top:-5vh;bottom:-5vh;left:0;right:6%;background:linear-gradient(90deg, rgba(23,18,15,0.72) 0%, rgba(23,18,15,0.72) 92%, rgba(23,18,15,0) 100%);mask-image:linear-gradient(90deg, transparent 0%, #000 5%, #000 100%);-webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 5%, #000 100%);pointer-events:none"></div>
+    <div style="position:relative;max-width:min(100%,680px)">
+      <h2 id="prest-t" style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(30px,4.2vw,56px);line-height:1.04;letter-spacing:-0.015em">Prestations</h2>
+      <sc-for list="{{ groups }}" as="g" hint-placeholder-count="2">
+        <div style="margin-top:clamp(38px,4.5vw,60px)">
+          <h3 style="font-size:15px;font-weight:500;color:#A79A8B">{{ g.title }}</h3>
+          <div style="margin-top:8px">
+            <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="5">
+              <a href="{{ ctaHref }}" target="{{ ctaTarget }}" rel="noopener noreferrer" style="display:flex;align-items:baseline;gap:14px;padding:17px 0;text-decoration:none;color:#F1EAE0" style-hover="text-decoration-line:underline;text-decoration-color:rgba(241,234,224,0.3)">
+                <span style="display:grid;gap:4px">
+                  <span style="font-size:clamp(17px,1.3vw,19px)">{{ it.name }}</span>
+                  <span style="color:#A79A8B;font-size:14px">{{ it.time }}</span>
+                </span>
+                <span aria-hidden="true" style="flex:1 1 auto;min-width:20px;height:0;align-self:flex-start;transform:translateY(0.85em);border-bottom:1px dotted rgba(241,234,224,0.14)"></span>
+                <span style="font-family:'Instrument Serif',Georgia,serif;font-size:clamp(22px,2.1vw,30px);line-height:1;white-space:nowrap">{{ it.price }}</span>
+              </a>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+      <p style="margin-top:30px;max-width:52ch;color:#A79A8B;font-size:14px">{{ pricesNote }}</p>
+    </div>
+  </section>
+
+  <section id="salon" aria-labelledby="salon-t" style="position:relative;margin-top:clamp(120px,20vh,232px);padding:0 clamp(20px,5vw,96px)">
+    <div aria-hidden="true" style="position:absolute;top:-5vh;bottom:-5vh;left:0;right:0;background:linear-gradient(180deg, rgba(23,18,15,0) 0%, rgba(23,18,15,0.72) 14%, rgba(23,18,15,0.72) 86%, rgba(23,18,15,0) 100%);mask-image:linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);-webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);pointer-events:none"></div>
+    <div style="position:relative">
+      <h2 id="salon-t" style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(30px,4.2vw,56px);line-height:1.04;letter-spacing:-0.015em">Le salon</h2>
+      <div style="margin-top:clamp(28px,3.5vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,255px),1fr));gap:clamp(14px,1.7vw,26px)">
+        <sc-for list="{{ gallery }}" as="ph" hint-placeholder-count="4">
+          <div style="aspect-ratio:3/2;aspect-ratio:{{ frameAspect }};background:#241C17;border-radius:2px">
+            <image-slot id="{{ ph }}" shape="rounded" radius="2" placeholder="Glissez une photo du salon"></image-slot>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <sc-if value="{{ showTeam }}" hint-placeholder-val="{{ false }}">
+    <section id="equipe" aria-labelledby="eq-t" style="position:relative;margin-top:clamp(120px,20vh,232px);padding:0 clamp(20px,5vw,96px)">
+      <div style="position:relative;max-width:min(100%,680px)">
+        <h2 id="eq-t" style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(30px,4.2vw,56px);line-height:1.04;letter-spacing:-0.015em">L'équipe</h2>
+        <div style="margin-top:clamp(24px,3vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:24px">
+          <sc-for list="{{ team }}" as="m" hint-placeholder-count="3">
+            <div>
+              <p style="font-family:'Instrument Serif',Georgia,serif;font-size:24px;line-height:1.2">{{ m.name }}</p>
+              <p style="margin-top:4px;color:#A79A8B;font-size:14px">{{ m.role }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+  </sc-if>
+
+  <section id="infos" aria-labelledby="infos-t" style="position:relative;margin-top:clamp(120px,20vh,232px);padding:0 clamp(20px,5vw,96px)">
+    <div aria-hidden="true" style="position:absolute;top:-5vh;bottom:-8vh;left:0;right:0;background:linear-gradient(180deg, rgba(23,18,15,0) 0%, rgba(23,18,15,0.7) 12%, rgba(23,18,15,0.78) 100%);mask-image:linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);-webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);pointer-events:none"></div>
+    <div style="position:relative">
+      <h2 id="infos-t" style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(30px,4.2vw,56px);line-height:1.04;letter-spacing:-0.015em">Infos</h2>
+      <div style="margin-top:clamp(28px,3.5vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:clamp(34px,4.5vw,72px);max-width:1000px">
+
+        <div>
+          <p style="font-family:'Instrument Serif',Georgia,serif;font-size:clamp(23px,2.2vw,31px);line-height:1.22">5 rue Saint-Éloi<br>68000 Colmar</p>
+          <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:2px 22px;font-size:15px">
+            <a href="https://maps.google.com/?cid=609345516803650696" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;min-height:44px">Itinéraire, Google Maps</a>
+            <a href="https://maps.apple.com/?q=Elite+Barber&amp;address=5+Rue+Saint-Eloi,+68000+Colmar" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;min-height:44px">Itinéraire, Plans</a>
+          </div>
+          <p style="margin-top:26px"><a href="tel:+33605761431" style="font-family:'Instrument Serif',Georgia,serif;font-size:clamp(23px,2.2vw,31px);line-height:1.22;text-decoration:none;border-bottom:1px solid rgba(241,234,224,0.14)">{{ telDisplay }}</a></p>
+          <p style="margin-top:14px">
+            <a href="{{ waHref }}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:9px;min-height:44px;font-size:16px;text-decoration:none;border-bottom:1px solid rgba(241,234,224,0.14)">
+              <svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto">
+                <path d="M21 12a8.6 8.6 0 0 1-12.4 7.7L4 21l1.4-4.4A8.6 8.6 0 1 1 21 12z"></path>
+              </svg>
+              <span>WhatsApp&nbsp;{{ waDisplay }}</span>
+            </a>
+          </p>
+          <div style="margin-top:26px;display:grid;gap:6px">
+            <a href="{{ ctaHref }}" target="{{ ctaTarget }}" rel="noopener noreferrer" style="display:inline-flex;align-items:center;min-height:44px;font-weight:500;justify-self:start">Réserver sur Planity</a>
+            <p style="color:#A79A8B;font-size:15px">{{ planityProof }}</p>
+          </div>
+          <sc-if value="{{ hasInstagram }}" hint-placeholder-val="{{ false }}">
+            <p style="margin-top:22px;font-size:15px"><a href="{{ instagram }}" target="_blank" rel="noopener noreferrer">Instagram</a></p>
+          </sc-if>
+        </div>
+
+        <div style="background:#241C17;border-radius:2px;padding:clamp(18px,2vw,28px);align-self:start">
+          <div style="min-height:34px;display:flex;align-items:center">
+            <sc-if value="{{ isOpen }}" hint-placeholder-val="{{ false }}">
+              <span style="display:inline-flex;align-items:center;height:30px;padding:0 15px;border-radius:999px;background:#B5272E;color:#F1EAE0;font-size:14px;font-weight:500;white-space:nowrap">Ouvert maintenant</span>
+            </sc-if>
+            <sc-if value="{{ isClosed }}" hint-placeholder-val="{{ false }}">
+              <span style="color:#A79A8B;font-size:15px">{{ statusLabel }}</span>
+            </sc-if>
+          </div>
+          <div style="margin-top:18px;display:grid;gap:0;max-width:420px">
+            <sc-for list="{{ hoursRows }}" as="d" hint-placeholder-count="7">
+              <div style="display:flex;justify-content:space-between;gap:20px;padding:7px 0;font-size:16px;color:{{ d.color }};font-weight:{{ d.weight }}">
+                <span>{{ d.day }}</span>
+                <span style="text-align:right">{{ d.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <p style="margin-top:18px;color:#A79A8B;font-size:14px;max-width:44ch">{{ hoursNote }}</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer style="position:relative;margin-top:clamp(110px,18vh,200px);padding:0 clamp(20px,5vw,96px) calc(104px + env(safe-area-inset-bottom))">
+    <div aria-hidden="true" style="position:absolute;top:-6vh;bottom:0;left:0;right:0;background:rgba(23,18,15,0.82);mask-image:linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);-webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);pointer-events:none"></div>
+    <div style="position:relative;display:flex;flex-wrap:wrap;gap:12px 26px;align-items:baseline;color:#A79A8B;font-size:14px">
+      <span>© 2026 Elite Barber</span>
+      <button type="button" onClick="{{ openLegal }}" style="display:inline-flex;align-items:center;min-height:44px;background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;text-decoration:underline;text-underline-offset:4px;cursor:pointer">Mentions légales</button>
+      <button type="button" onClick="{{ openPrivacy }}" style="display:inline-flex;align-items:center;min-height:44px;background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;text-decoration:underline;text-underline-offset:4px;cursor:pointer">Confidentialité</button>
+    </div>
+    <div style="position:relative;margin-top:16px;display:grid;gap:4px;color:#A79A8B;font-size:14px">
+      <span>5 rue Saint-Éloi, 68000 Colmar</span>
+      <span>{{ telDisplay }}</span>
+    </div>
+  </footer>
+
+</main>
+
+<div style="position:fixed;z-index:60;left:16px;right:clamp(16px,2vw,24px);bottom:calc(clamp(16px,2vw,24px) + env(safe-area-inset-bottom));display:flex;justify-content:flex-end;pointer-events:none">
+  <a href="{{ ctaHref }}" target="{{ ctaTarget }}" rel="noopener noreferrer" ref="{{ ctaRef }}" style="pointer-events:auto;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;height:56px;padding:0 28px;border-radius:999px;background:#B5272E;color:#F1EAE0;font-size:17px;font-weight:500;text-decoration:none;white-space:nowrap;box-shadow:0 8px 24px rgba(181,39,46,0.35);transform:translate(var(--mx,0px),var(--my,0px)) scale(var(--s,1));transition:transform .15s ease, box-shadow .15s ease;flex:0 0 auto;{{ ctaFlex }}">
+    <sc-if value="{{ wideNav }}" hint-placeholder-val="{{ true }}">
+      <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" style="flex:0 0 auto">
+        <rect x="3" y="5" width="18" height="16" rx="2"></rect>
+        <path d="M8 3v4"></path>
+        <path d="M16 3v4"></path>
+        <path d="M3 11h18"></path>
+      </svg>
+    </sc-if>
+    <span>{{ ctaLabelText }}</span>
+  </a>
+</div>
+
+<sc-if value="{{ dialogOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeDialog }}" style="position:fixed;inset:0;z-index:70;background:rgba(10,8,6,0.72);display:flex;align-items:center;justify-content:center;padding:clamp(16px,3vw,40px)">
+    <div role="dialog" aria-modal="true" aria-labelledby="dlg-t" ref="{{ dialogRef }}" onClick="{{ stopClick }}" onKeyDown="{{ onDialogKey }}" tabindex="-1" style="background:#241C17;border:1px solid rgba(241,234,224,0.14);border-radius:2px;width:min(100%,660px);max-height:82dvh;overflow:auto;padding:clamp(24px,3vw,40px);outline:none">
+      <h2 id="dlg-t" style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(26px,2.6vw,36px);line-height:1.1">{{ dialogTitle }}</h2>
+      <sc-if value="{{ isLegal }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:22px;display:grid;gap:12px;font-size:15px;color:#F1EAE0;max-width:62ch">
+          <p>Éditeur du site&nbsp;: ELITE BARBER, société par actions simplifiée, immatriculée en janvier 2026.</p>
+          <p>SIREN&nbsp;: 100 919 273.</p>
+          <p>Siège social&nbsp;: 5 rue Saint-Éloi, 68000 Colmar.</p>
+          <p>Téléphone&nbsp;: {{ telDisplay }}.</p>
+          <p>Directeur de la publication&nbsp;: [à compléter].</p>
+          <p>Hébergeur&nbsp;: GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis (GitHub&nbsp;Pages).</p>
+          <p style="color:#A79A8B">Les prestations, tarifs et horaires affichés sont indicatifs et restent à confirmer par le salon.</p>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isPrivacy }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:22px;display:grid;gap:12px;font-size:15px;color:#F1EAE0;max-width:62ch">
+          <p>Ce site ne collecte aucune donnée personnelle. Aucun formulaire, aucun compte, aucun traceur.</p>
+          <p>Aucun cookie n'est déposé sur votre appareil.</p>
+          <p>Aucune mesure d'audience n'est installée. Les polices de caractères et les images sont servies depuis le site lui-même.</p>
+          <p>La réservation est assurée par Planity, sur son propre site&nbsp;: les informations que vous y saisissez sont traitées par Planity, selon sa politique de confidentialité.</p>
+          <p>Pour toute question, appelez le salon au {{ telDisplay }}.</p>
+        </div>
+      </sc-if>
+      <div style="margin-top:28px;display:flex;justify-content:flex-start">
+        <button type="button" onClick="{{ closeDialog }}" style="min-height:44px;padding:0 22px;border-radius:999px;border:1px solid rgba(241,234,224,0.14);background:none;color:#F1EAE0;font:inherit;font-size:15px;cursor:pointer">Fermer</button>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;sceneOn&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Scène 3D&quot;},&quot;respectReducedMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Scène 3D&quot;},&quot;ctaLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Réserver&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Réservation&quot;},&quot;showTeam&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Contenu à confirmer&quot;},&quot;showWalkIn&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Contenu à confirmer&quot;}}">
+class Component extends DCLogic {
+  /* ---- source de vérité : équivalent de src/config/site.config.ts ---- */
+  SITE = {
+    tel: { display: '06\u00A005\u00A076\u00A014\u00A031', href: 'tel:+33605761431' },
+    whatsapp: { display: '07\u00A080\u00A045\u00A001\u00A048', href: 'https://wa.me/33780450148' },
+    bookingUrl: 'https://www.planity.com/mg-elite-barber-68000-colmar',
+    instagram: '',
+    ratings: {
+      google: { value: '5', count: 33 },
+      planity: { value: '4,9', count: 34 },
+      date: '14 septembre 2026'
+    },
+    groups: [
+      {
+        title: 'Coupe et barbe',
+        items: [
+          { name: 'Coupe + barbe', time: '30 min', price: '30\u00A0€' },
+          { name: 'Coupe + shampoing', time: '20 min', price: '20\u00A0€' },
+          { name: 'Barbe', time: '15 min', price: '15\u00A0€' },
+          { name: 'Coupe enfant, moins de 15 ans', time: '20 min', price: '15\u00A0€' },
+          { name: "Coupe + barbe par l'apprenti", time: '40 min', price: '15\u00A0€' }
+        ]
+      },
+      {
+        title: 'Blanchiment dentaire by Elite Smile',
+        items: [
+          { name: 'Blanchiment dentaire', time: '1\u00A0h', price: 'sur devis' },
+          { name: 'Blanchiment dentaire, offre duo', time: '1\u00A0h', price: '40\u00A0€ / pers.' },
+          { name: 'Blanchiment dentaire, 2 séances', time: '1\u00A0h', price: 'sur devis' },
+          { name: 'Retouche blanchiment, 2 séances', time: '40 min', price: 'sur devis' }
+        ]
+      }
+    ],
+    hours: [
+      { dow: 1, day: 'Lundi', ranges: [[540, 1140]] },
+      { dow: 2, day: 'Mardi', ranges: [] },
+      { dow: 3, day: 'Mercredi', ranges: [[540, 1140]] },
+      { dow: 4, day: 'Jeudi', ranges: [[540, 720], [840, 1320]] },
+      { dow: 5, day: 'Vendredi', ranges: [[540, 1140]] },
+      { dow: 6, day: 'Samedi', ranges: [[540, 1140]] },
+      { dow: 0, day: 'Dimanche', ranges: [] }
+    ],
+    team: [
+      { name: 'Memo', role: 'Barbier' },
+      { name: 'Hélène', role: 'Coiffeuse' },
+      { name: 'Bilal', role: 'Apprenti' }
+    ]
+  };
+
+  state = { scrolled: false, narrow: false, dialog: null, tick: 0 };
+
+  componentDidMount() {
+    this._reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    this._onScroll = e => {
+      const t = e.target;
+      let y;
+      if (t && t.nodeType === 1 && t !== document.documentElement && t !== document.body &&
+          t.scrollHeight - t.clientHeight > 8) y = t.scrollTop;
+      else y = window.scrollY || document.documentElement.scrollTop || 0;
+      const s = y > 40;
+      if (s !== this.state.scrolled) this.setState({ scrolled: s });
+    };
+    window.addEventListener('scroll', this._onScroll, { capture: true, passive: true });
+
+    // le point de rupture suit matchMedia + un ResizeObserver : le resize window
+    // ne se d\u00e9clenche pas quand l'iframe h\u00f4te atteint sa taille finale
+    this._mq = matchMedia('(max-width: 640px)');
+    this._onResize = () => {
+      const n = this._mq.matches;
+      if (n !== this.state.narrow) this.setState({ narrow: n });
+    };
+    if (this._mq.addEventListener) this._mq.addEventListener('change', this._onResize);
+    else this._mq.addListener(this._onResize);
+    window.addEventListener('resize', this._onResize, { passive: true });
+    this._docRo = new ResizeObserver(this._onResize);
+    this._docRo.observe(document.documentElement);
+    this._onResize();
+    // r\u00e9assertion sur quelques frames : la premi\u00e8re valeur ne peut pas rester p\u00e9rim\u00e9e
+    let n = 0;
+    const settle = () => { this._onResize(); if (n++ < 6) requestAnimationFrame(settle); };
+    requestAnimationFrame(settle);
+
+    this._iv = setInterval(() => this.setState(s => ({ tick: s.tick + 1 })), 60000);
+    this._syncMotion();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    this._syncMotion();
+    if (!prevState) return;
+    // focus initial pos\u00e9 depuis le cycle de vie, sur le conteneur stable :
+    // un rAF dans le ref se faisait annuler par le re-rendu du sous-arbre sc-if
+    if (!prevState.dialog && this.state.dialog) {
+      setTimeout(() => {
+        const dlg = this._dlg;
+        if (!dlg || !dlg.isConnected || !this.state.dialog) return;
+        if (dlg.contains(document.activeElement)) return;
+        dlg.focus({ preventScroll: true });
+        if (!dlg.contains(document.activeElement)) {
+          const f = this.focusables(dlg)[0];
+          if (f) f.focus({ preventScroll: true });
+        }
+      }, 60);
+    }
+    // focus restitu\u00e9 au d\u00e9clencheur apr\u00e8s commit de la fermeture
+    if (prevState.dialog && !this.state.dialog) {
+      const t = this._trigger;
+      if (t && t.focus && t !== document.body && t.isConnected) {
+        setTimeout(() => {
+          if (this.state.dialog || !t.isConnected) return;
+          t.focus({ preventScroll: true });
+        }, 60);
+      }
+    }
+  }
+
+  _syncMotion() {
+    // la démo anime par défaut ; respectReducedMotion réactive la préférence système
+    document.documentElement.dataset.motion = (this.props.respectReducedMotion ?? false) ? '' : 'force';
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll, { capture: true });
+    window.removeEventListener('resize', this._onResize);
+    if (this._mq) {
+      if (this._mq.removeEventListener) this._mq.removeEventListener('change', this._onResize);
+      else this._mq.removeListener(this._onResize);
+    }
+    if (this._docRo) { this._docRo.disconnect(); this._docRo = null; }
+    clearInterval(this._iv);
+    this._stopChase();
+    document.removeEventListener('keydown', this.onDialogKey, true);
+    document.documentElement.style.overflow = '';
+  }
+
+  /* ---- horaires, fuseau Europe/Paris ---- */
+  parisNow() {
+    try {
+      const p = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Europe/Paris', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+      }).formatToParts(new Date());
+      const get = t => { const f = p.find(x => x.type === t); return f ? f.value : ''; };
+      const map = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+      const dow = map[get('weekday')];
+      const min = parseInt(get('hour'), 10) * 60 + parseInt(get('minute'), 10);
+      if (dow === undefined || isNaN(min)) throw new Error('x');
+      return { dow, min };
+    } catch (e) {
+      const d = new Date();
+      return { dow: d.getDay(), min: d.getHours() * 60 + d.getMinutes() };
+    }
+  }
+
+  hm(m) {
+    const h = Math.floor(m / 60), mm = m % 60;
+    return mm === 0 ? h + '\u00A0h' : h + '\u00A0h\u00A0' + String(mm).padStart(2, '0');
+  }
+
+  dayLabel(d) {
+    if (!d.ranges.length) return 'Fermé';
+    return d.ranges.map(r => this.hm(r[0]) + ' – ' + this.hm(r[1])).join(', ');
+  }
+
+  status() {
+    const { dow, min } = this.parisNow();
+    const at = d => this.SITE.hours.find(h => h.dow === d);
+    const today = at(dow);
+    if (today) {
+      for (const r of today.ranges) if (min >= r[0] && min < r[1]) return { open: true, label: 'Ouvert maintenant' };
+    }
+    for (let i = 0; i < 8; i++) {
+      const d = at((dow + i) % 7);
+      if (!d) continue;
+      for (const r of d.ranges) {
+        if (i === 0 && r[0] <= min) continue;
+        const when = i === 0 ? "aujourd'hui" : i === 1 ? 'demain' : d.day.toLowerCase();
+        return { open: false, label: 'Fermé, ouvre ' + when + ' à ' + this.hm(r[0]) };
+      }
+    }
+    return { open: false, label: 'Fermé' };
+  }
+
+  /* ---- bouton Réserver : magnétisme et micro-interactions, coupés si reduced-motion ---- */
+  ctaRef = el => {
+    if (!el || el === this._cta) return;
+    this._cta = el;
+    if (this._reduced || !matchMedia('(pointer: fine)').matches) return;
+    const set = (k, v) => el.style.setProperty(k, v);
+    el.addEventListener('pointermove', ev => {
+      const r = el.getBoundingClientRect();
+      set('--mx', (((ev.clientX - (r.left + r.width / 2)) / (r.width / 2)) * 6).toFixed(1) + 'px');
+      set('--my', (((ev.clientY - (r.top + r.height / 2)) / (r.height / 2)) * 6).toFixed(1) + 'px');
+    }, { passive: true });
+    el.addEventListener('pointerenter', () => {
+      set('--s', '1.03');
+      el.style.boxShadow = '0 12px 34px rgba(181,39,46,0.45)';
+    });
+    el.addEventListener('pointerleave', () => {
+      set('--s', '1'); set('--mx', '0px'); set('--my', '0px');
+      el.style.boxShadow = '0 8px 24px rgba(181,39,46,0.35)';
+    });
+    el.addEventListener('pointerdown', () => set('--s', '0.98'));
+    el.addEventListener('pointerup', () => set('--s', '1.03'));
+  };
+
+  /* ---- modale ---- */
+  focusables(el) {
+    return Array.prototype.filter.call(
+      el.querySelectorAll('a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])'),
+      n => n.offsetParent !== null || n === el
+    );
+  }
+
+  dialogRef = el => { this._dlg = el || null; };
+
+  /* Relance born\u00e9e : le focus est r\u00e9appliqu\u00e9 jusqu'\u00e0 ce qu'il tienne, puis s'arr\u00eate.
+     Pilot\u00e9e depuis open/close, pas depuis un hook de cycle de vie. */
+  _chaseFocus(done, act) {
+    this._stopChase();
+    let n = 0;
+    this._chase = setInterval(() => {
+      if (done() || n++ > 24) { this._stopChase(); return; }
+      act();
+    }, 25);
+    act();
+  }
+
+  _stopChase() { if (this._chase) { clearInterval(this._chase); this._chase = null; } }
+
+  open(kind) {
+    this._trigger = document.activeElement;
+    this._scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    document.documentElement.style.overflow = 'hidden';
+    // capture au niveau document : \u00c9chap et Tab fonctionnent o\u00f9 que soit le focus
+    document.addEventListener('keydown', this.onDialogKey, true);
+    this.setState({ dialog: kind });
+    this._chaseFocus(
+      () => {
+        const d = this._dlg;
+        return !this.state.dialog || (!!d && d.isConnected && d.contains(document.activeElement));
+      },
+      () => {
+        const d = this._dlg;
+        if (!d || !d.isConnected || d.contains(document.activeElement)) return;
+        (this.focusables(d)[0] || d).focus({ preventScroll: true });
+      }
+    );
+  }
+
+  close = () => {
+    document.removeEventListener('keydown', this.onDialogKey, true);
+    document.documentElement.style.overflow = '';
+    const y = this._scrollY, t = this._trigger;
+    this._dlg = null;
+    this.setState({ dialog: null });
+    if (typeof y === 'number') requestAnimationFrame(() => window.scrollTo(0, y));
+    const ok = t && t.focus && t !== document.body;
+    this._chaseFocus(
+      () => !ok || !t.isConnected || document.activeElement === t || !!this.state.dialog,
+      () => { if (ok && t.isConnected && document.activeElement !== t) t.focus({ preventScroll: true }); }
+    );
+  };
+
+  onDialogKey = e => {
+    const dlg = this._dlg;
+    if (!dlg || !this.state.dialog) return;
+    if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); this.close(); return; }
+    if (e.key !== 'Tab') return;
+    const f = this.focusables(dlg);
+    if (!f.length) { e.preventDefault(); dlg.focus({ preventScroll: true }); return; }
+    const first = f[0], last = f[f.length - 1], a = document.activeElement;
+    // focus \u00e9chapp\u00e9 hors de la modale : on le ram\u00e8ne
+    if (!dlg.contains(a)) { e.preventDefault(); (e.shiftKey ? last : first).focus({ preventScroll: true }); return; }
+    if (e.shiftKey && (a === first || a === dlg)) { e.preventDefault(); last.focus({ preventScroll: true }); }
+    else if (!e.shiftKey && a === last) { e.preventDefault(); first.focus({ preventScroll: true }); }
+  };
+
+  renderVals() {
+    const S = this.SITE;
+    const url = S.bookingUrl || '';
+    const st = this.status();
+    const { dow } = this.parisNow();
+    const g = S.ratings.google, pl = S.ratings.planity;
+
+    return {
+      sceneOn: this.props.sceneOn ?? true,
+      showTeam: this.props.showTeam ?? false,
+      showWalkIn: this.props.showWalkIn ?? false,
+      ctaLabelText: this.props.ctaLabel ?? 'Réserver',
+
+      wideNav: !this.state.narrow,
+      headerOpacity: this.state.scrolled ? 1 : 0,
+      frameAspect: this.state.narrow ? '4 / 5' : '3 / 2',
+      ctaFlex: this.state.narrow ? 'flex:1 1 auto;' : '',
+
+      ctaHref: url || '#infos',
+      ctaTarget: url ? '_blank' : '',
+      telDisplay: S.tel.display,
+      waDisplay: S.whatsapp.display,
+      waHref: S.whatsapp.href,
+      instagram: S.instagram,
+      hasInstagram: !!S.instagram,
+
+      googleProof: g.value + ' sur 5, ' + g.count + ' avis Google',
+      planityProof: pl.value + ' sur 5, ' + pl.count + ' avis',
+      pricesNote: 'Tarifs relevés sur Planity le ' + S.ratings.date + ', à confirmer par le salon. Une prestation du groupe « Coupe / Barbe » n\u2019est pas visible publiquement.',
+      hoursNote: 'Horaires relevés sur Planity, à confirmer, en particulier la plage du jeudi soir.',
+
+      groups: S.groups,
+      team: S.team,
+      gallery: ['salon-1', 'salon-2', 'salon-3', 'salon-4'],
+
+      isOpen: st.open,
+      isClosed: !st.open,
+      statusLabel: st.label,
+      hoursRows: S.hours.map(d => ({
+        day: d.day,
+        label: this.dayLabel(d),
+        color: d.dow === dow ? '#F1EAE0' : '#A79A8B',
+        weight: d.dow === dow ? 500 : 400
+      })),
+
+      ctaRef: this.ctaRef,
+      dialogRef: this.dialogRef,
+      openLegal: () => this.open('legal'),
+      openPrivacy: () => this.open('privacy'),
+      closeDialog: this.close,
+      onDialogKey: this.onDialogKey,
+      stopClick: e => e.stopPropagation(),
+      dialogOpen: !!this.state.dialog,
+      isLegal: this.state.dialog === 'legal',
+      isPrivacy: this.state.dialog === 'privacy',
+      dialogTitle: this.state.dialog === 'privacy' ? 'Confidentialité' : 'Mentions légales'
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Logo — Elite Barber</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #100D0C; color: #EDE7DE; font-family: "Instrument Sans", Helvetica, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #EDE7DE; } a:hover { color: #EDE7DE; }
+</style>
+</helmet>
+
+<main style="min-height:100dvh;padding:clamp(20px,4vw,64px);display:grid;gap:clamp(14px,1.6vw,22px);grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));align-content:start">
+
+  <p style="grid-column:1 / -1;margin:0 0 6px;color:#8E8378;font-size:11px;letter-spacing:0.2em;text-transform:uppercase">Elite Barber — marque</p>
+
+  <figure style="margin:0;aspect-ratio:1;display:grid;place-items:center;background:#100D0C;border:1px solid rgba(237,231,222,0.12)">
+    <svg width="62%" viewBox="0 0 200 200" fill="none" aria-label="Monogramme EB">
+      <circle cx="100" cy="100" r="94" stroke="#EDE7DE" stroke-width="2.2"></circle>
+      <circle cx="100" cy="100" r="82" stroke="#EDE7DE" stroke-opacity="0.28" stroke-width="1"></circle>
+      <path d="M100 6 V40 M100 160 V194" stroke="#EDE7DE" stroke-width="2.2"></path>
+      <path d="M6 100 H22 M178 100 H194" stroke="#EDE7DE" stroke-opacity="0.5" stroke-width="1.2"></path>
+      <text x="100" y="127" text-anchor="middle" fill="#EDE7DE" font-family="'Instrument Serif',Georgia,serif" font-size="88" letter-spacing="-2">EB</text>
+    </svg>
+  </figure>
+
+  <figure style="margin:0;aspect-ratio:1;display:grid;place-items:center;background:#EDE7DE;border:1px solid rgba(16,13,12,0.08)">
+    <svg width="62%" viewBox="0 0 200 200" fill="none" aria-label="Monogramme EB, version claire">
+      <circle cx="100" cy="100" r="94" stroke="#100D0C" stroke-width="2.2"></circle>
+      <circle cx="100" cy="100" r="82" stroke="#100D0C" stroke-opacity="0.28" stroke-width="1"></circle>
+      <path d="M100 6 V40 M100 160 V194" stroke="#100D0C" stroke-width="2.2"></path>
+      <path d="M6 100 H22 M178 100 H194" stroke="#100D0C" stroke-opacity="0.5" stroke-width="1.2"></path>
+      <text x="100" y="127" text-anchor="middle" fill="#100D0C" font-family="'Instrument Serif',Georgia,serif" font-size="88" letter-spacing="-2">EB</text>
+    </svg>
+  </figure>
+
+  <figure style="margin:0;grid-column:1 / -1;min-height:220px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(18px,3vw,40px);padding:clamp(28px,4vw,56px);background:#191513;border:1px solid rgba(237,231,222,0.12)">
+    <svg width="96" height="96" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+      <circle cx="100" cy="100" r="94" stroke="#EDE7DE" stroke-width="2.6"></circle>
+      <path d="M100 6 V40 M100 160 V194" stroke="#EDE7DE" stroke-width="2.6"></path>
+      <text x="100" y="127" text-anchor="middle" fill="#EDE7DE" font-family="'Instrument Serif',Georgia,serif" font-size="88" letter-spacing="-2">EB</text>
+    </svg>
+    <div style="display:grid;gap:10px">
+      <span style="font-family:'Instrument Serif',Georgia,serif;font-size:clamp(40px,5vw,64px);line-height:0.9;letter-spacing:-0.02em">Elite Barber</span>
+      <span style="font-size:12px;letter-spacing:0.34em;text-transform:uppercase;color:#8E8378">Colmar — 5 rue Saint-Éloi</span>
+    </div>
+  </figure>
+
+  <p style="grid-column:1 / -1;margin:0;max-width:60ch;color:#8E8378;font-size:13px;line-height:1.6">Monogramme EB en Instrument Serif, cercle à filet, entailles haut et bas comme un fil de lame. Version sombre, version claire, et bloc-marque horizontal. Le fichier SVG se copie tel quel pour l'impression, les réseaux et la vitrine.</p>
+
+</main>
+</x-dc>
+</body>
+</html>
