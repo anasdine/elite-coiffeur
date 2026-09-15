@@ -1,0 +1,1929 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ONE SNACK — Commander en ligne | Food truck Colmar</title>
+<meta name="description" content="Smash burgers, baguettes et Box du Peuple à 10 €. Commandez en ligne, passez récupérer à l'heure que vous voulez. 8a rue Denis Papin, ZI Colmar. Livraison Colmar et alentours.">
+<meta name="theme-color" content="#08060E">
+<meta property="og:title" content="ONE SNACK — Food truck Colmar">
+<meta property="og:description" content="Smash burgers & baguettes. Box du Peuple 10 €. Commande en ligne, retrait sans file d'attente.">
+<meta property="og:type" content="website">
+<style>
+/* Polices servies depuis le dossier polices/ : aucune dépendance externe,
+   la borne fonctionne même sans connexion. */
+@font-face{font-family:'Anton';font-style:normal;font-weight:400;font-display:swap;src:url(polices/Anton-400.woff2) format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:400;font-display:swap;src:url(polices/Barlow-400.woff2) format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:500;font-display:swap;src:url(polices/Barlow-500.woff2) format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:600;font-display:swap;src:url(polices/Barlow-600.woff2) format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:700;font-display:swap;src:url(polices/Barlow-700.woff2) format('woff2')}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:800;font-display:swap;src:url(polices/Barlow-800.woff2) format('woff2')}
+@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:600;font-display:swap;src:url(polices/BarlowCondensed-600.woff2) format('woff2')}
+@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:700;font-display:swap;src:url(polices/BarlowCondensed-700.woff2) format('woff2')}
+@font-face{font-family:'Caveat Brush';font-style:normal;font-weight:400;font-display:swap;src:url(polices/CaveatBrush-400.woff2) format('woff2')}
+
+/* ==========================================================================
+   ONE SNACK — borne de commande / click & collect
+   Direction artistique reprise des affiches du camion :
+   violet profond, magenta néon, jaune, typo capitale ultra-grasse.
+   Tout le menu se modifie dans les constantes MENU / GROUPES (plus bas).
+   ========================================================================== */
+
+:root{
+  /* ---- couleurs ---- */
+  --noir:#08060E;
+  --noir-2:#130A22;
+  --noir-3:#1B0F2E;
+  --carte:#160C27;
+  --violet:#3B0A78;
+  --violet-vif:#7A22D9;
+  --violet-clair:#A45CFF;
+  --magenta:#FF2E92;
+  --magenta-fonce:#A8005A;
+  --jaune:#FFC814;
+  --jaune-clair:#FFDD5C;
+  --jaune-ombre:#B27F00;
+  --blanc:#FFFFFF;
+  --gris:#BCA9D4;
+  --gris-2:#8574A0;
+  --vert:#39DD84;
+  /* ---- formes ---- */
+  --r:18px;
+  --r-s:12px;
+  --bord:1px solid rgba(255,255,255,.10);
+  --bord-fort:2px solid rgba(255,255,255,.16);
+  /* ---- typos ---- */
+  --f-titre:"Anton","Arial Narrow",Impact,sans-serif;
+  --f-cond:"Barlow Condensed","Barlow",sans-serif;
+  --f-ui:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-brush:"Caveat Brush","Comic Sans MS",cursive;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--noir);
+  color:var(--blanc);
+  font-family:var(--f-ui);
+  font-size:17px;
+  line-height:1.4;
+  overscroll-behavior-y:none;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+img{max-width:100%;display:block}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+input,select,textarea{font:inherit}
+:focus-visible{outline:3px solid var(--jaune);outline-offset:3px;border-radius:8px}
+::selection{background:var(--magenta);color:#fff}
+
+/* grain d'impression, comme sur les flyers */
+.grain{
+  position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- typographie ---------- */
+.titre{
+  font-family:var(--f-titre);font-weight:400;text-transform:uppercase;
+  letter-spacing:.005em;line-height:.94;
+}
+.brush{font-family:var(--f-brush);text-transform:none;letter-spacing:.01em}
+.cond{font-family:var(--f-cond);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+
+/* bandeau peint derrière un titre */
+.swash{position:relative;display:inline-block;padding:.1em .42em .16em;z-index:0}
+.swash::before{
+  content:"";position:absolute;inset:0;z-index:-1;transform:rotate(-1.1deg);
+  background:var(--violet-vif);
+  -webkit-mask:var(--swash-mask) center/100% 100% no-repeat;
+          mask:var(--swash-mask) center/100% 100% no-repeat;
+}
+.swash.rose::before{background:linear-gradient(90deg,var(--magenta),#FF6BB0)}
+.swash.jaune::before{background:linear-gradient(90deg,var(--jaune),var(--jaune-clair))}
+:root{
+  --swash-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 64' preserveAspectRatio='none'%3E%3Cpath d='M3 14C46 3 92 11 140 7c48-4 96 5 157-4l-2 50c-52 9-96 2-146 7-50 5-98-3-146 4z' fill='%23fff'/%3E%3C/svg%3E");
+}
+
+/* ---------- logo ---------- */
+.logo{display:inline-block;text-align:center;transform:rotate(-2deg);line-height:.8}
+.logo .one{
+  font-family:var(--f-titre);display:block;color:var(--blanc);letter-spacing:.07em;
+  text-shadow:0 3px 0 rgba(0,0,0,.45);
+}
+.logo .snack{
+  font-family:var(--f-titre);display:block;color:var(--jaune);transform:skewX(-9deg);
+  text-shadow:0 3px 0 rgba(0,0,0,.45),0 0 34px rgba(255,200,20,.35);
+}
+.logo .snack::after{
+  content:"";display:block;height:.13em;margin-top:.02em;background:var(--jaune);
+  -webkit-mask:var(--swash-mask) center/100% 100% no-repeat;
+          mask:var(--swash-mask) center/100% 100% no-repeat;
+}
+.logo-xl .one{font-size:clamp(40px,8.2vw,74px)}
+.logo-xl .snack{font-size:clamp(62px,13.4vw,124px)}
+.logo-m .one{font-size:22px;letter-spacing:.12em}
+.logo-m .snack{font-size:38px}
+.logo-s .one{font-size:13px;letter-spacing:.14em}
+.logo-s .snack{font-size:24px}
+.couronne{width:clamp(38px,6vw,58px);margin:0 auto 2px;display:block;filter:drop-shadow(0 0 16px rgba(255,200,20,.45))}
+
+/* ---------- boutons ---------- */
+.btn{
+  font-family:var(--f-titre);text-transform:uppercase;font-size:clamp(19px,2.4vw,23px);
+  letter-spacing:.015em;border-radius:14px;min-height:64px;padding:14px 22px;
+  display:flex;align-items:center;justify-content:center;gap:12px;width:100%;
+  transition:transform .12s cubic-bezier(.2,.8,.3,1),box-shadow .12s,filter .12s;
+  position:relative;
+}
+.btn .sous{display:block;font-family:var(--f-ui);font-size:14px;font-weight:600;
+  text-transform:none;letter-spacing:0;opacity:.72;margin-top:2px}
+.btn .lbl{display:block;text-align:center}
+.btn-jaune{background:linear-gradient(180deg,var(--jaune-clair),var(--jaune));color:#1A0E00;box-shadow:0 7px 0 var(--jaune-ombre)}
+.btn-jaune:active{transform:translateY(5px);box-shadow:0 2px 0 var(--jaune-ombre)}
+.btn-rose{background:linear-gradient(180deg,#FF5FAB,var(--magenta));color:#fff;box-shadow:0 7px 0 var(--magenta-fonce)}
+.btn-rose:active{transform:translateY(5px);box-shadow:0 2px 0 var(--magenta-fonce)}
+.btn-creux{background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.22);color:#fff}
+.btn-creux:active{transform:translateY(3px)}
+.btn[disabled]{background:#2C2140;color:#7B6C92;box-shadow:none;cursor:not-allowed;filter:none}
+.btn-s{min-height:52px;font-size:18px;padding:10px 18px;border-radius:12px}
+
+/* pastilles de prix — reprises des affiches */
+.pastilles{display:inline-flex;border-radius:99px;overflow:hidden;line-height:1;flex-wrap:nowrap}
+.pastilles span{
+  font-family:var(--f-cond);font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+  font-size:13px;padding:7px 11px 8px;display:inline-flex;align-items:baseline;gap:5px;white-space:nowrap;
+}
+.pastilles b{font-family:var(--f-titre);font-size:17px;font-weight:400;letter-spacing:0}
+.pastilles .seul{background:var(--magenta);color:#fff}
+.pastilles .menu{background:var(--violet-vif);color:#fff}
+.pastilles .solo{background:var(--jaune);color:#1A0E00}
+
+/* cadre néon rose */
+.neon{
+  border:2px solid var(--magenta);border-radius:99px;
+  box-shadow:0 0 16px rgba(255,46,146,.42),inset 0 0 14px rgba(255,46,146,.22);
+  color:#fff;
+}
+
+/* étiquette collée de travers */
+.sticker{
+  position:absolute;top:10px;left:10px;z-index:3;transform:rotate(-4deg);
+  background:var(--magenta);color:#fff;font-family:var(--f-cond);font-weight:700;
+  text-transform:uppercase;letter-spacing:.07em;font-size:12px;padding:5px 10px;border-radius:4px;
+  box-shadow:0 4px 12px rgba(0,0,0,.45);
+}
+.sticker.jaune{background:var(--jaune);color:#1A0E00}
+
+/* bande de réassurance */
+.reassurance{
+  display:flex;gap:10px 26px;justify-content:center;flex-wrap:wrap;align-items:center;
+  font-family:var(--f-cond);font-weight:700;text-transform:uppercase;letter-spacing:.09em;
+  font-size:13px;color:#F3E6FF;
+  background:linear-gradient(90deg,var(--violet),var(--violet-vif),var(--magenta));
+  padding:11px 16px;
+}
+.reassurance i{display:inline-flex;margin-right:7px;vertical-align:-3px}
+.reassurance svg{width:15px;height:15px}
+
+.filet{height:5px;background:linear-gradient(90deg,var(--violet-vif),var(--magenta),var(--jaune))}
+
+/* ---------- écrans ---------- */
+.ecran{min-height:100dvh;display:flex;flex-direction:column;animation:apparait .2s ease}
+@keyframes apparait{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- accueil ---------- */
+.accueil{position:relative;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.accueil-fond{position:absolute;inset:0;z-index:0}
+.accueil-fond img{width:100%;height:100%;object-fit:cover;opacity:.5}
+.accueil-fond::after{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(85% 55% at 50% 6%,rgba(122,34,217,.55),transparent 72%),
+    radial-gradient(60% 40% at 88% 78%,rgba(255,46,146,.28),transparent 70%),
+    linear-gradient(180deg,rgba(8,6,14,.62) 0%,rgba(8,6,14,.80) 46%,var(--noir) 92%);
+}
+.accueil-corps{
+  position:relative;z-index:1;width:100%;max-width:560px;margin:auto;
+  padding:calc(26px + env(safe-area-inset-top)) 20px 22px;
+  display:flex;flex-direction:column;align-items:center;
+}
+.accroche{font-size:clamp(17px,2.4vw,20px);color:#EADCFF;max-width:26ch;margin:18px auto 0;line-height:1.35}
+.accroche b{color:var(--jaune);font-weight:700}
+.statut{
+  display:inline-flex;align-items:center;gap:9px;margin:16px 0 0;padding:8px 15px;border-radius:99px;
+  background:rgba(255,255,255,.06);border:var(--bord);font-family:var(--f-cond);font-weight:700;
+  text-transform:uppercase;letter-spacing:.07em;font-size:13.5px;
+}
+.point{width:9px;height:9px;border-radius:99px;background:var(--vert);box-shadow:0 0 0 4px rgba(57,221,132,.18)}
+.point.off{background:var(--gris-2);box-shadow:0 0 0 4px rgba(133,116,160,.18)}
+.modes{display:flex;flex-direction:column;gap:12px;width:100%;margin:26px 0 0}
+.infos-camion{
+  margin:22px 0 4px;color:var(--gris);font-size:14.5px;display:flex;gap:6px 16px;
+  flex-wrap:wrap;justify-content:center;align-items:center;
+}
+.infos-camion b{color:#fff;font-weight:600}
+.lien-discret{color:var(--gris-2);font-size:13.5px;text-decoration:underline;text-underline-offset:3px}
+.accueil .reassurance{position:relative;z-index:1;width:100%;margin-top:auto;
+  padding-bottom:calc(11px + env(safe-area-inset-bottom))}
+
+/* ---------- barre haute ---------- */
+.barre{
+  display:flex;align-items:center;gap:14px;z-index:30;position:sticky;top:0;
+  padding:9px 14px;padding-top:calc(9px + env(safe-area-inset-top));
+  background:rgba(8,6,14,.92);backdrop-filter:blur(14px);border-bottom:var(--bord);
+}
+.rond{
+  width:48px;height:48px;border-radius:14px;border:var(--bord);background:var(--noir-2);
+  display:grid;place-items:center;flex:none;font-size:21px;
+}
+.barre-droite{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mode-actif{
+  font-family:var(--f-cond);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:12.5px;
+  padding:7px 12px;border-radius:99px;background:rgba(122,34,217,.3);border:1px solid rgba(164,92,255,.45);color:#E9D9FF;
+}
+.btn-panier{
+  display:none;align-items:center;gap:9px;background:var(--jaune);color:#1A0E00;border-radius:99px;
+  padding:9px 16px 9px 13px;font-family:var(--f-titre);font-size:18px;box-shadow:0 4px 0 var(--jaune-ombre);
+}
+.btn-panier .n{
+  background:#1A0E00;color:var(--jaune);border-radius:99px;min-width:24px;height:24px;
+  display:grid;place-items:center;font-size:14px;padding:0 6px;
+}
+
+/* ---------- écran menu ---------- */
+.zone{display:grid;grid-template-columns:minmax(0,1fr);flex:1;min-height:0}
+.rail{display:none}
+.chips{
+  display:flex;gap:9px;overflow-x:auto;padding:12px 14px;scrollbar-width:none;
+  position:sticky;top:var(--h-barre,66px);z-index:28;background:rgba(8,6,14,.97);backdrop-filter:blur(14px);
+  border-bottom:var(--bord);
+}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  flex:none;display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:99px;
+  border:2px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:var(--gris);
+  font-family:var(--f-cond);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:15px;
+  white-space:nowrap;min-height:48px;
+}
+.chip svg{width:22px;height:22px}
+.chip[aria-current="true"]{
+  background:linear-gradient(180deg,var(--violet-vif),#5F16AC);color:#fff;border-color:rgba(255,255,255,.3);
+  box-shadow:0 0 18px rgba(122,34,217,.5);
+}
+
+.contenu{padding:0 14px 170px;min-width:0}
+
+/* bandeau photo de catégorie */
+.banniere{
+  position:relative;border-radius:var(--r);overflow:hidden;margin:16px 0 18px;
+  aspect-ratio:16/7;display:flex;align-items:flex-end;
+  background:linear-gradient(120deg,var(--violet),#20073F);
+}
+.banniere img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.66}
+.banniere::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(8,6,14,.9) 8%,rgba(8,6,14,.35) 58%,rgba(255,46,146,.22) 100%);
+}
+.banniere-txt{position:relative;z-index:2;padding:18px 20px;max-width:46ch}
+.banniere-txt h1{font-size:clamp(30px,6.4vw,50px);margin:0 0 4px}
+.banniere-txt p{margin:0;color:#E4D6F7;font-size:15px}
+
+.cartes{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(168px,1fr))}
+.carte{
+  background:linear-gradient(180deg,#1C1130,var(--carte));
+  border:var(--bord);border-radius:var(--r);overflow:hidden;position:relative;
+  display:flex;flex-direction:column;text-align:left;
+  transition:transform .14s cubic-bezier(.2,.8,.3,1),border-color .14s,box-shadow .14s;
+}
+.carte:hover{border-color:rgba(255,46,146,.5);box-shadow:0 12px 30px rgba(0,0,0,.45)}
+.carte:active{transform:scale(.985)}
+.visuel{
+  position:relative;aspect-ratio:5/4;display:grid;place-items:center;overflow:hidden;
+  background:
+    radial-gradient(70% 60% at 50% 118%,rgba(255,46,146,.38),transparent 68%),
+    radial-gradient(75% 65% at 50% -8%,rgba(122,34,217,.55),transparent 70%),
+    #0D0718;
+}
+.visuel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.visuel svg{width:82%;height:82%;filter:drop-shadow(0 10px 18px rgba(0,0,0,.55))}
+.carte-corps{padding:11px 13px 13px;display:flex;flex-direction:column;gap:5px;flex:1}
+.carte h3{margin:0;font-family:var(--f-titre);font-weight:400;text-transform:uppercase;
+  font-size:19px;line-height:1;letter-spacing:.01em}
+.carte .desc{color:var(--gris);font-size:13.5px;line-height:1.3;flex:1}
+.carte .bas{display:flex;align-items:center;gap:8px;margin-top:7px;padding-right:50px}
+.plus{
+  margin-left:auto;width:40px;height:40px;border-radius:12px;flex:none;
+  background:var(--jaune);color:#1A0E00;display:grid;place-items:center;font-size:24px;
+  font-family:var(--f-titre);box-shadow:0 3px 0 var(--jaune-ombre);
+}
+.plus:active{transform:translateY(2px);box-shadow:0 1px 0 var(--jaune-ombre)}
+
+/* carte vedette (la Box) */
+.carte.vedette{grid-column:1/-1;flex-direction:row;align-items:stretch;
+  border-color:rgba(255,200,20,.35);box-shadow:0 0 0 1px rgba(255,200,20,.15),0 18px 40px rgba(0,0,0,.5)}
+.carte.vedette .visuel{aspect-ratio:auto;width:42%;max-width:340px;flex:none}
+.carte.vedette .carte-corps{padding:18px 20px;justify-content:center;gap:8px}
+.carte.vedette h3{font-size:clamp(24px,4.6vw,38px)}
+.carte.vedette .desc{flex:none;font-size:15px;max-width:38ch}
+@media (max-width:520px){
+  .carte.vedette{flex-direction:column}
+  .carte.vedette .visuel{width:100%;max-width:none;aspect-ratio:16/10}
+}
+
+/* ---------- fiche produit ---------- */
+.voile{position:fixed;inset:0;background:rgba(4,2,8,.8);z-index:60;display:flex;
+  align-items:flex-end;justify-content:center;backdrop-filter:blur(3px);animation:fondu .18s ease}
+@keyframes fondu{from{opacity:0}to{opacity:1}}
+.feuille{
+  background:var(--noir-2);width:min(640px,100%);max-height:94dvh;overflow:auto;
+  border-radius:22px 22px 0 0;border:var(--bord);border-bottom:0;position:relative;
+  padding-bottom:calc(120px + env(safe-area-inset-bottom));
+  animation:monte .24s cubic-bezier(.2,.8,.3,1);
+}
+@keyframes monte{from{transform:translateY(26px);opacity:0}to{transform:none;opacity:1}}
+.feuille-haut{position:relative;aspect-ratio:16/9;display:grid;place-items:center;overflow:hidden;
+  background:radial-gradient(70% 70% at 50% 120%,rgba(255,46,146,.4),transparent 66%),
+             radial-gradient(80% 70% at 50% -10%,rgba(122,34,217,.6),transparent 70%),#0D0718}
+.feuille-haut img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.feuille-haut svg{width:52%;max-width:260px;filter:drop-shadow(0 12px 22px rgba(0,0,0,.6))}
+.fermer{position:absolute;top:12px;right:12px;width:46px;height:46px;border-radius:99px;
+  background:rgba(0,0,0,.6);border:var(--bord);display:grid;place-items:center;font-size:20px;z-index:4}
+.feuille-corps{padding:16px 18px 10px}
+.feuille-corps h2{font-size:clamp(26px,5.6vw,36px);margin:0 0 6px}
+.feuille-corps .desc{color:var(--gris);margin:0}
+.groupe{margin:22px 0 0}
+.groupe h3{font-family:var(--f-cond);font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+  font-size:15px;margin:0 0 2px;color:#fff}
+.groupe .aide{color:var(--gris-2);font-size:13px;margin:0 0 10px}
+.groupe .aide .obligatoire{color:var(--magenta);font-weight:700}
+.options{display:grid;gap:9px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.opt{
+  border:2px solid rgba(255,255,255,.13);border-radius:12px;padding:12px 13px;min-height:58px;
+  display:flex;align-items:center;gap:10px;text-align:left;background:var(--noir-3);
+  transition:border-color .12s,background .12s;
+}
+.opt .lbl{flex:1;font-weight:600;font-size:15.5px}
+.opt .sup{color:var(--jaune);font-size:13.5px;font-weight:700;white-space:nowrap}
+.opt[aria-pressed="true"]{border-color:var(--jaune);background:rgba(255,200,20,.1)}
+.opt .coche{width:22px;height:22px;border-radius:7px;border:2px solid rgba(255,255,255,.28);
+  flex:none;display:grid;place-items:center;font-size:13px;color:#1A0E00;font-weight:800}
+.opt[aria-pressed="true"] .coche{background:var(--jaune);border-color:var(--jaune)}
+.opt.formule{flex-direction:column;align-items:flex-start;gap:3px;min-height:76px;justify-content:center}
+.opt.formule .lbl{font-family:var(--f-titre);text-transform:uppercase;font-size:19px;font-weight:400}
+.feuille-pied{
+  position:sticky;bottom:0;background:linear-gradient(to top,var(--noir-2) 72%,rgba(19,10,34,0));
+  border-top:var(--bord);padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+  display:flex;gap:12px;align-items:center;margin-top:18px;
+}
+.qty{display:flex;align-items:center;gap:6px;background:var(--noir-3);border-radius:12px;padding:5px;border:var(--bord)}
+.qty button{width:42px;height:42px;border-radius:9px;background:rgba(255,255,255,.07);display:grid;
+  place-items:center;font-size:21px;font-weight:700}
+.qty span{min-width:26px;text-align:center;font-weight:700;font-size:18px}
+.feuille-pied .btn{flex:1}
+
+/* ---------- panier ---------- */
+.panier{display:none}
+.panier-titre{font-size:22px;margin:0;padding:18px 18px 10px}
+.lignes{flex:1;overflow:auto;padding:0 14px 14px;display:flex;flex-direction:column;gap:9px}
+.ligne{background:var(--noir-3);border-radius:12px;padding:11px 12px;display:grid;gap:5px;border:var(--bord)}
+.ligne .h{display:flex;gap:8px;align-items:baseline}
+.ligne .n{font-weight:700;flex:1;font-size:15.5px}
+.ligne .p{color:var(--jaune);font-weight:700;white-space:nowrap}
+.ligne .d{color:var(--gris-2);font-size:12.5px;line-height:1.35}
+.ligne .qty{padding:3px;gap:3px}
+.ligne .qty button{width:34px;height:34px;font-size:18px}
+.vide{color:var(--gris-2);padding:26px 18px;font-size:15px;flex:1;text-align:center}
+.vide svg{width:76px;margin:0 auto 12px;opacity:.5}
+.total-zone{border-top:var(--bord);padding:14px 16px calc(16px + env(safe-area-inset-bottom));
+  display:grid;gap:10px;background:var(--noir-2)}
+.total{display:flex;justify-content:space-between;align-items:baseline;font-size:14.5px;color:var(--gris)}
+.total .g{font-family:var(--f-titre);font-size:30px;color:#fff}
+.lien-vider{color:var(--gris-2);font-size:13.5px;text-decoration:underline;text-underline-offset:3px;justify-self:center}
+
+/* barre panier mobile */
+.barre-panier{
+  position:fixed;left:0;right:0;bottom:0;z-index:26;padding:12px 14px calc(12px + env(safe-area-inset-bottom));
+  background:linear-gradient(to top,var(--noir) 60%,rgba(8,6,14,0));
+}
+.barre-panier .btn{box-shadow:0 7px 0 var(--jaune-ombre),0 -8px 30px rgba(0,0,0,.6)}
+.barre-panier .btn .n{background:rgba(0,0,0,.18);border-radius:99px;padding:2px 10px;font-size:18px}
+
+/* ---------- assistant ---------- */
+.assistant{
+  position:fixed;inset:0;z-index:70;display:flex;align-items:flex-end;justify-content:center;
+  background:rgba(4,2,8,.82);backdrop-filter:blur(4px);animation:fondu .18s ease;
+}
+.assistant-boite{
+  width:min(560px,100%);max-height:94dvh;background:linear-gradient(180deg,#1A0F2E,var(--noir-2));
+  border-radius:22px 22px 0 0;border:2px solid rgba(255,46,146,.35);border-bottom:0;
+  box-shadow:0 -10px 60px rgba(255,46,146,.18);display:flex;flex-direction:column;
+  animation:monte .24s cubic-bezier(.2,.8,.3,1);
+}
+.assistant-haut{display:flex;align-items:center;gap:12px;padding:16px 16px 12px;border-bottom:var(--bord)}
+.avatar{width:46px;height:46px;border-radius:99px;flex:none;display:grid;place-items:center;
+  background:linear-gradient(160deg,var(--magenta),var(--violet-vif));box-shadow:0 0 22px rgba(255,46,146,.45)}
+.avatar svg{width:28px;height:28px}
+.assistant-haut .qui{flex:1;min-width:0}
+.assistant-haut .qui b{display:block;font-family:var(--f-titre);text-transform:uppercase;font-size:20px;font-weight:400}
+.assistant-haut .qui span{font-size:13px;color:var(--gris)}
+.fil{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.bulle{
+  max-width:88%;padding:12px 15px;border-radius:16px 16px 16px 4px;background:var(--noir-3);
+  border:var(--bord);font-size:15.5px;line-height:1.35;animation:apparait .22s ease;
+}
+.bulle.moi{align-self:flex-end;border-radius:16px 16px 4px 16px;
+  background:linear-gradient(160deg,var(--violet-vif),#5C15A6);border-color:rgba(164,92,255,.4)}
+.bulle b{color:var(--jaune)}
+.reponses{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 8px}
+.rep{
+  border:2px solid rgba(255,46,146,.45);background:rgba(255,46,146,.09);border-radius:99px;
+  padding:11px 16px;font-weight:700;font-size:15px;min-height:46px;display:inline-flex;align-items:center;gap:7px;
+}
+.rep:active{transform:translateY(2px)}
+.rep.faq{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.05);font-weight:600;font-size:14px;
+  min-height:40px;padding:8px 13px;color:var(--gris)}
+.propo{background:var(--noir-3);border:2px solid rgba(255,200,20,.35);border-radius:16px;padding:14px;margin-top:2px}
+.propo .l{display:flex;justify-content:space-between;gap:10px;font-size:15px;padding:5px 0}
+.propo .l span:first-child{flex:1}
+.propo .l em{display:block;font-style:normal;color:var(--gris-2);font-size:12.5px}
+.propo .sep{height:1px;background:rgba(255,255,255,.12);margin:7px 0}
+.propo .tot{display:flex;justify-content:space-between;align-items:baseline}
+.propo .tot b{font-family:var(--f-titre);font-size:26px;color:var(--jaune);font-weight:400}
+.assistant-pied{padding:10px 16px calc(14px + env(safe-area-inset-bottom));display:grid;gap:9px;border-top:var(--bord)}
+@keyframes pulse{0%{transform:scale(1);opacity:.7}70%{transform:scale(1.28);opacity:0}100%{opacity:0}}
+
+/* ---------- commande / checkout ---------- */
+.page{max-width:720px;margin:0 auto;padding:18px 16px 170px;width:100%}
+.page h1{font-size:clamp(28px,6vw,44px);margin:6px 0 16px}
+.bloc{background:var(--carte);border:var(--bord);border-radius:var(--r);padding:16px;margin:0 0 12px}
+.bloc h2{font-family:var(--f-cond);font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+  font-size:16px;margin:0 0 2px}
+.bloc .aide{color:var(--gris-2);font-size:13.5px;margin:0 0 12px}
+.creneaux{display:flex;gap:9px;overflow-x:auto;padding-bottom:4px;scroll-snap-type:x mandatory;scrollbar-width:none}
+.creneaux::-webkit-scrollbar{display:none}
+.creneau{
+  flex:none;border:2px solid rgba(255,255,255,.13);background:var(--noir-3);border-radius:12px;
+  padding:10px 14px;min-width:94px;text-align:center;scroll-snap-align:start;min-height:64px;
+}
+.creneau .h{font-family:var(--f-titre);font-size:21px;line-height:1.1}
+.creneau .s{font-size:11.5px;color:var(--gris-2);text-transform:uppercase;letter-spacing:.05em}
+.creneau[aria-pressed="true"]{border-color:var(--jaune);background:rgba(255,200,20,.12)}
+.champ{display:grid;gap:6px;margin:0 0 12px}
+.champ label{font-size:13.5px;color:var(--gris);font-weight:600}
+.champ input,.champ textarea{
+  background:var(--noir-3);border:2px solid rgba(255,255,255,.13);border-radius:12px;
+  padding:13px 14px;color:#fff;min-height:54px;width:100%;
+}
+.champ input:focus,.champ textarea:focus{border-color:var(--violet-clair);outline:none}
+.champ input::placeholder,.champ textarea::placeholder{color:#5A4C71}
+.duo{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+.recap{display:grid;gap:7px;margin:0 0 14px}
+.recap .r{display:flex;justify-content:space-between;gap:12px;font-size:15px}
+.recap .r span:first-child{color:var(--gris)}
+.recap .r em{font-style:normal;color:var(--gris-2);font-size:12.5px;display:block}
+.recap .sep{height:1px;background:rgba(255,255,255,.1);margin:5px 0}
+.recap .gros{font-size:19px;font-weight:700}
+.recap .gros span:first-child{color:#fff}
+.alerte{background:rgba(255,46,146,.12);border:1px solid rgba(255,46,146,.4);border-radius:12px;
+  padding:11px 13px;font-size:14px;color:#FFD6E9;margin:0 0 12px}
+.barre-bas{
+  position:fixed;left:0;right:0;bottom:0;z-index:20;
+  padding:14px 16px calc(14px + env(safe-area-inset-bottom));
+  background:linear-gradient(to top,var(--noir) 62%,rgba(8,6,14,0));
+}
+.barre-bas .interne{max-width:720px;margin:0 auto}
+
+/* ---------- confirmation ---------- */
+.confirm{align-items:center;justify-content:center;text-align:center;padding:28px 18px;position:relative;overflow:hidden;
+  background:radial-gradient(90% 55% at 50% 0%,#2E0860,var(--noir) 72%)}
+.numero{font-family:var(--f-titre);font-size:clamp(66px,19vw,128px);color:var(--jaune);line-height:.88;
+  transform:skewX(-8deg);text-shadow:0 0 44px rgba(255,200,20,.4)}
+.ticket{
+  background:var(--carte);border:var(--bord);border-radius:var(--r);padding:16px;margin:20px auto 0;
+  max-width:420px;text-align:left;width:100%;position:relative;
+}
+.ticket::before,.ticket::after{content:"";position:absolute;width:22px;height:22px;border-radius:99px;
+  background:var(--noir);top:50%;transform:translateY(-50%)}
+.ticket::before{left:-11px}
+.ticket::after{right:-11px}
+.etapes{display:flex;gap:8px;justify-content:center;margin:18px 0 0;flex-wrap:wrap}
+.etape{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--gris-2);
+  font-family:var(--f-cond);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.etape .rd{width:10px;height:10px;border-radius:99px;background:rgba(255,255,255,.18)}
+.etape.on{color:#fff}
+.etape.on .rd{background:var(--vert);box-shadow:0 0 0 4px rgba(57,221,132,.16)}
+
+/* ---------- vue cuisine ---------- */
+.cuisine{padding:16px 16px 60px;display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.tk{background:var(--carte);border:var(--bord);border-left:5px solid var(--jaune);border-radius:12px;padding:13px}
+.tk.prepa{border-left-color:var(--magenta)}
+.tk.prete{border-left-color:var(--vert);opacity:.55}
+.tk .num{font-family:var(--f-titre);font-size:25px}
+.tk ul{margin:9px 0;padding-left:17px;font-size:14.5px}
+.tk li{margin:0 0 5px}
+.tk li em{color:var(--gris-2);font-style:normal;font-size:12.5px;display:block}
+.tk .actions{display:flex;gap:8px;margin-top:10px}
+.tk .actions button{flex:1;border:var(--bord);border-radius:9px;padding:9px;font-weight:700;font-size:13.5px;
+  background:rgba(255,255,255,.06)}
+.tk .actions button[aria-pressed="true"]{background:var(--violet-vif);border-color:transparent}
+
+/* ---------- divers ---------- */
+.toast{
+  position:fixed;left:50%;transform:translateX(-50%);bottom:calc(104px + env(safe-area-inset-bottom));z-index:90;
+  background:var(--vert);color:#03210F;font-weight:700;padding:12px 20px;border-radius:99px;
+  box-shadow:0 10px 30px rgba(0,0,0,.5);animation:pop .2s ease;max-width:90vw;text-align:center;
+}
+@keyframes pop{from{transform:translate(-50%,12px);opacity:0}to{transform:translate(-50%,0);opacity:1}}
+
+/* ---------- grands écrans : rail + panier fixe ---------- */
+@media (min-width:1080px){
+  .accueil-corps{max-width:640px}
+  .zone{grid-template-columns:230px minmax(0,1fr)}
+  .chips{display:none}
+  .rail{
+    display:flex;flex-direction:column;gap:8px;padding:16px 12px 40px;border-right:var(--bord);
+    position:sticky;top:var(--h-barre,66px);align-self:start;max-height:calc(100dvh - var(--h-barre,66px));overflow:auto;
+  }
+  .rail button{
+    display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;min-height:62px;
+    border:2px solid transparent;color:var(--gris);text-align:left;
+  }
+  .rail button svg{width:34px;height:34px;flex:none}
+  .rail button .nom{font-family:var(--f-cond);font-weight:700;text-transform:uppercase;
+    letter-spacing:.05em;font-size:17px}
+  .rail button[aria-current="true"]{background:linear-gradient(180deg,var(--violet-vif),#5F16AC);color:#fff;
+    box-shadow:0 0 18px rgba(122,34,217,.45)}
+  .contenu{padding:0 26px 120px}
+  .cartes{grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:14px}
+  .banniere{aspect-ratio:21/6}
+  .voile{align-items:center}
+  .feuille{border-radius:22px;border-bottom:var(--bord);max-height:90dvh;padding-bottom:0}
+  .assistant{align-items:center}
+  .assistant-boite{border-radius:22px;border-bottom:2px solid rgba(255,46,146,.35);max-height:88dvh}
+  .modes{flex-direction:row;flex-wrap:wrap}
+  .modes .btn{flex:1 1 200px}
+  .modes .btn-jaune{flex-basis:100%}
+}
+@media (min-width:1280px){
+  .avec-panier .zone{grid-template-columns:230px minmax(0,1fr) 352px}
+  .avec-panier .panier{
+    display:flex;flex-direction:column;border-left:var(--bord);background:var(--noir-2);
+    position:sticky;top:var(--h-barre,66px);height:calc(100dvh - var(--h-barre,66px));
+  }
+  .avec-panier .barre-panier{display:none}
+  .avec-panier .btn-panier{display:none!important}
+  .avec-panier   .avec-panier .contenu{padding-bottom:60px}
+}
+/* borne portrait (1080x1920) : on grossit tout */
+@media (min-width:900px) and (orientation:portrait){
+  body{font-size:19px}
+  .cartes{grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
+  .carte h3{font-size:24px}
+  .carte .desc{font-size:15px}
+  .chip{font-size:18px;min-height:58px;padding:12px 20px}
+  .btn{min-height:74px;font-size:26px}
+  .banniere-txt h1{font-size:54px}
+}
+@media (max-width:420px){
+  .cartes{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .carte h3{font-size:17px}
+  .carte .desc{display:none}
+  .pastilles span{font-size:11.5px;padding:6px 8px}
+  .pastilles b{font-size:15px}
+  .duo{grid-template-columns:1fr}
+  .plus{width:36px;height:36px;font-size:21px}
+}
+
+/* ---------- réglages complémentaires ---------- */
+.carte{position:relative}
+.surface{position:absolute;inset:0;z-index:2;border-radius:var(--r)}
+.surface:focus-visible{outline-offset:-4px}
+.carte .bas .plus{position:absolute;right:11px;bottom:11px;margin:0;z-index:3}
+.btn-panier{display:flex}
+.btn svg{width:26px;height:26px;flex:none}
+.feuille{padding-bottom:0}
+.assistant-boite{overflow:hidden}
+.chip svg,.rail button svg{flex:none}
+.banniere-txt h1{font-family:var(--f-titre);font-weight:400;text-transform:uppercase;line-height:.94}
+.carte.vedette .visuel svg{width:76%;height:76%}
+.vide svg{display:block}
+.modes .btn{width:100%}
+.opt.formule .sup{color:var(--jaune)}
+
+/* --- cartes : le + flotte sur le visuel, les prix gardent toute la place --- */
+.plus{position:absolute;right:11px;bottom:11px;margin:0}
+.carte.vedette .bas .plus{right:16px;bottom:16px}
+.sticker{max-width:calc(100% - 24px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* dans les cartes produit, l'étiquette de prix s'empile : lisible partout */
+.carte .pastilles{flex-direction:column;border-radius:10px;align-items:stretch}
+.carte .pastilles span{font-size:11px;padding:5px 10px 6px;gap:5px;justify-content:flex-start}
+.carte .pastilles b{font-size:15px}
+.carte.vedette .pastilles{flex-direction:row;border-radius:99px}
+.carte.vedette .pastilles span{font-size:12.5px;padding:7px 12px 8px}
+.carte.vedette .pastilles b{font-size:18px}
+@media (max-width:520px){
+  .carte .pastilles span{font-size:10px;padding:4px 9px 5px}
+  .carte .pastilles b{font-size:14px}
+  .carte-corps{padding:10px 11px 12px}
+  .carte .bas{padding-right:46px}
+  .carte .bas .plus{right:8px;bottom:8px;width:38px;height:38px}
+  .sticker{font-size:11px;padding:4px 8px}
+}
+@media (max-width:420px){
+  .carte.vedette .desc{display:block}
+  .reassurance{gap:8px 16px;font-size:11.5px;padding:10px 12px}
+  .reassurance svg{width:13px;height:13px}
+}
+.demo-ligne{color:var(--gris-2);font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  font-family:var(--f-cond);font-weight:700;margin-top:14px}
+
+@media (max-width:520px){
+  .barre-droite:has(.btn-panier) .mode-actif{display:none}
+}
+
+/* bouton assistant dans la barre */
+.rond-ass{background:linear-gradient(160deg,var(--magenta),var(--violet-vif));border-color:rgba(255,255,255,.22);
+  box-shadow:0 0 18px rgba(255,46,146,.45);position:relative}
+.rond-ass svg{width:26px;height:26px}
+.rond-ass::after{content:"";position:absolute;inset:-3px;border-radius:16px;border:2px solid rgba(255,46,146,.5);
+  animation:pulse 2.6s ease-out infinite}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<script>
+/* =========================================================================
+   1) LE CAMION — tout se règle ici
+   ========================================================================= */
+const RESTO = {
+  nom:"ONE SNACK",
+  adresse:"8a rue Denis Papin, ZI — 68000 Colmar",
+  adresseCourte:"8a rue Denis Papin, Colmar",
+  tel:"06 00 00 00 00",
+  ouverture:"11:45",
+  fermeture:"14:00",
+  jours:"Du lundi au vendredi",
+  preparationMin:12,      // minutes de prépa avant le 1er créneau
+  pasCreneau:5,           // un créneau toutes les 5 minutes
+  livraison:{ frais:2.5, minimum:15, zone:"Colmar et alentours" }
+};
+
+/* =========================================================================
+   2) LES PHOTOS
+   PHOTOS liste les images utilisées : le camion (fond de l'accueil), et une
+   photo par grande famille (box, smash, baguette).
+
+   Pour mettre VOS photos : remplacez l'adresse ci-dessous, ou déposez vos
+   fichiers dans un dossier photos/ et écrivez par exemple "photos/box.jpg".
+   Pour ajouter une photo à un produit précis, ajoutez-lui photo:"box"
+   (la clé d'une entrée de PHOTOS) dans la carte, plus bas.
+
+   Si une image ne charge pas, le dessin maison reprend la main tout seul :
+   la borne n'est jamais cassée.
+   ========================================================================= */
+const PHOTOS = {
+  camion  :"https://cdn.gamma.app/vemgequmtq5y0w6/design-anything/f9jdGqFuHwZRSgFyvOG6R/_LdOY94vAqh8Qk_34yiqa.jpg",
+  box     :"https://cdn.gamma.app/vemgequmtq5y0w6/design-anything/cxsvft6BnVaInfdFDdncs/BkjE2EU5R0LMvxz_LcRbR.jpg",
+  smash   :"https://cdn.gamma.app/vemgequmtq5y0w6/design-anything/i2npLTuqDue7mtWMQoTRf/I6mH7qsfOTd6QlCRWG6V4.jpg",
+  baguette:"https://cdn.gamma.app/vemgequmtq5y0w6/design-anything/3iqiZiLg7mKozVmGdRocn/3EMOt6SEiC1zRX9Jw4NKt.jpg"
+};
+
+/* =========================================================================
+   3) LA CARTE
+   prix     = à l'unité       prixMenu = formule (frites + boisson)
+   ========================================================================= */
+const CATEGORIES = [
+  {id:"box",      nom:"Les box",   ico:"box",      titre:"La Box du Peuple",  sous:"Tout dedans, 10 € — le meilleur rapport du camion"},
+  {id:"smash",    nom:"Smash",     ico:"burger",   titre:"Les smash burgers", sous:"Steaks smashés minute, cheddar fondu, pain brioché", photo:"smash"},
+  {id:"sandwich", nom:"Baguettes", ico:"baguette", titre:"Les baguettes",     sous:"Baguette croustillante, garnie devant vous", photo:"baguette"},
+  {id:"extra",    nom:"À côté",    ico:"frites",   titre:"À côté",            sous:"Frites maison, tenders et compagnie"},
+  {id:"boisson",  nom:"Boissons",  ico:"canette",  titre:"Les boissons",      sous:"Bien fraîches, sorties du frigo du camion"}
+];
+
+const MENU = [
+  /* ---- LA BOX ---------------------------------------------------------- */
+  {id:"box-peuple", cat:"box", nom:"Box du Peuple", prix:10, prixMenu:null, ico:"box", photo:"box",
+   desc:"1 smash + tenders + frites cheddar oignons frits + une boisson. La formule qui cale.",
+   badge:"10 € seulement", vedette:true, groupes:["boisson","sauces"]},
+
+  /* ---- SMASH ----------------------------------------------------------- */
+  {id:"smash-1",  cat:"smash", nom:"Le Smash Simple", prix:6, prixMenu:9, ico:"burger", patties:1,
+   desc:"1 steak smashé, cheddar, salade, sauce maison", groupes:["sauces","supp"]},
+  {id:"smash-2",  cat:"smash", nom:"Le Double Smash", prix:7.5, prixMenu:10, ico:"burger", patties:2,
+   desc:"2 steaks smashés, double cheddar fondu", badge:"Top vente", groupes:["sauces","supp"]},
+  {id:"smash-3",  cat:"smash", nom:"Le Triple Smash", prix:8, prixMenu:11, ico:"burger", patties:3,
+   desc:"3 steaks smashés, triple cheddar, pour les affamés", groupes:["sauces","supp"]},
+  {id:"smash-2b", cat:"smash", nom:"Le Double Smash Bacon", prix:9, prixMenu:12, ico:"burger", patties:2, bacon:true,
+   desc:"2 steaks smashés, cheddar, bacon grillé croustillant", groupes:["sauces","supp"]},
+
+  /* ---- BAGUETTES ------------------------------------------------------- */
+  {id:"sw-curry",   cat:"sandwich", nom:"Le Curry", prix:7, prixMenu:10, ico:"baguette", couleur:"#E2A32E",
+   desc:"Poulet mariné au curry, crudités", groupes:["sauces"]},
+  {id:"sw-tandori", cat:"sandwich", nom:"Le Tandori", prix:7, prixMenu:10, ico:"baguette", couleur:"#C6402A",
+   desc:"Poulet tandoori bien relevé, crudités", groupes:["sauces"]},
+  {id:"sw-kefta",   cat:"sandwich", nom:"Le Kefta", prix:7, prixMenu:10, ico:"baguette", couleur:"#6E3A20",
+   desc:"Kefta de bœuf grillée, salade, tomate", groupes:["sauces"]},
+  {id:"sw-kefta-b", cat:"sandwich", nom:"Le Kefta Bacon", prix:7, prixMenu:10, ico:"baguette", couleur:"#8B4A2E",
+   desc:"Kefta de bœuf, bacon grillé, crudités", groupes:["sauces"]},
+  {id:"sw-mitrail", cat:"sandwich", nom:"La Baguette Frites", prix:7, prixMenu:10, ico:"baguette", couleur:"#FFC814",
+   desc:"Viande, frites dans la baguette, sauce au choix", groupes:["sauces"]},
+  {id:"sw-merguez", cat:"sandwich", nom:"Le Merguez", prix:7, prixMenu:10, ico:"baguette", couleur:"#A5321F",
+   desc:"Merguez grillées, crudités", groupes:["sauces"]},
+  {id:"sw-bavette", cat:"sandwich", nom:"Le Bavette", prix:9, prixMenu:12, ico:"baguette", couleur:"#5A2B18",
+   desc:"Bavette de bœuf poêlée, oignons, crudités", groupes:["sauces"]},
+  {id:"sw-crevette",cat:"sandwich", nom:"Le Crevette", prix:9, prixMenu:12, ico:"baguette", couleur:"#F0866B",
+   desc:"Crevettes sautées à l'ail, crudités", groupes:["sauces"]},
+
+  /* ---- À CÔTÉ ---------------------------------------------------------- */
+  {id:"frites",         cat:"extra", nom:"Frites maison", prix:3, ico:"frites",
+   desc:"Fraîches, coupées sur place", groupes:["sauces"]},
+  {id:"frites-cheddar", cat:"extra", nom:"Frites cheddar oignons", prix:4.5, ico:"frites",
+   desc:"Cheddar fondu et oignons frits", badge:"La tuerie", groupes:[]},
+  {id:"tenders-4",      cat:"extra", nom:"Tenders x4", prix:5, ico:"tenders",
+   desc:"Filets de poulet panés maison", groupes:["sauces"]},
+  {id:"tenders-8",      cat:"extra", nom:"Tenders x8", prix:9, ico:"tenders",
+   desc:"À partager. Ou pas.", groupes:["sauces"]},
+
+  /* ---- BOISSONS -------------------------------------------------------- */
+  {id:"coca",      cat:"boisson", nom:"Coca-Cola 33cl", prix:2, ico:"canette", couleur:"#D8122C", desc:"Goût original"},
+  {id:"coca-zero", cat:"boisson", nom:"Coca Zero 33cl", prix:2, ico:"canette", couleur:"#1A1A1A", desc:"Sans sucres"},
+  {id:"fanta",     cat:"boisson", nom:"Fanta 33cl", prix:2, ico:"canette", couleur:"#F07A12", desc:"Orange"},
+  {id:"oasis",     cat:"boisson", nom:"Oasis 33cl", prix:2, ico:"canette", couleur:"#E8402A", desc:"Tropical"},
+  {id:"ice-tea",   cat:"boisson", nom:"Ice Tea 33cl", prix:2, ico:"canette", couleur:"#C98A2E", desc:"Pêche"},
+  {id:"eau",       cat:"boisson", nom:"Eau 50cl", prix:1.5, ico:"bouteille", couleur:"#3FA9E0", desc:"Plate"}
+];
+
+const GROUPES = {
+  accomp:{ titre:"Votre accompagnement", aide:"Compris dans le menu", type:"unique", requis:true, options:[
+    {id:"frites", nom:"Frites maison", sup:0},
+    {id:"potatoes", nom:"Potatoes", sup:0.5},
+    {id:"frites-cheddar", nom:"Frites cheddar oignons", sup:1.5}
+  ]},
+  boisson:{ titre:"Votre boisson", aide:"Comprise dans la formule", type:"unique", requis:true, options:[
+    {id:"coca", nom:"Coca-Cola", sup:0},
+    {id:"coca-zero", nom:"Coca Zero", sup:0},
+    {id:"fanta", nom:"Fanta", sup:0},
+    {id:"oasis", nom:"Oasis", sup:0},
+    {id:"ice-tea", nom:"Ice Tea", sup:0},
+    {id:"eau", nom:"Eau 50cl", sup:0}
+  ]},
+  sauces:{ titre:"Vos sauces", aide:"2 offertes, puis 0,50 € la suivante", type:"multi", max:4, gratuit:2, options:[
+    {id:"algerienne", nom:"Algérienne"},
+    {id:"samourai", nom:"Samouraï"},
+    {id:"blanche", nom:"Blanche"},
+    {id:"bbq", nom:"Barbecue"},
+    {id:"ketchup", nom:"Ketchup"},
+    {id:"mayo", nom:"Mayonnaise"},
+    {id:"curry", nom:"Curry"},
+    {id:"harissa", nom:"Harissa"}
+  ]},
+  supp:{ titre:"Un supplément ?", aide:"Facultatif", type:"multi", options:[
+    {id:"cheddar", nom:"Cheddar en plus", sup:1},
+    {id:"bacon", nom:"Bacon grillé", sup:1.5},
+    {id:"oeuf", nom:"Œuf", sup:1},
+    {id:"steak", nom:"Steak supplémentaire", sup:2.5}
+  ]}
+};
+
+/* =========================================================================
+   4) LES DESSINS
+   Illustrations maison, dans les couleurs des affiches. Elles servent de
+   visuel par défaut et de filet de sécurité si une photo ne charge pas.
+   ========================================================================= */
+const svg = (vb, inner, cls) =>
+  `<svg viewBox="${vb}" class="${cls||""}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+
+const lueur = (cx,cy,rx,ry) =>
+  `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="#FF2E92" opacity=".22"/>`;
+
+/* --- burger smash (1, 2 ou 3 steaks, avec ou sans bacon) ---------------- */
+function burgerInner(o){
+  o = o || {};
+  const n = Math.min(3, Math.max(1, o.patties || 2));
+  let y = 84, couches = "";
+  for (let i=0; i<n; i++){
+    couches += `
+    <path d="M26 ${y}h148v12q-12.3 16-24.6 0-12.3 16-24.6 0-12.3 16-24.6 0-12.3 16-24.6 0-12.3 16-24.6 0-12.3 16-24.6 0Z" fill="#FFB020"/>
+    <path d="M26 ${y}h148v5H26z" fill="#FFD645"/>
+    <rect x="24" y="${y+10}" width="152" height="22" rx="10" fill="${i%2 ? "#4C2714" : "#5A3019"}"/>
+    <path d="M28 ${y+16}q15-6 31-2t32-1q16-4 32 0t28 2" stroke="#7E4826" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/>
+    <circle cx="${60+i*14}" cy="${y+24}" r="2.3" fill="#3A1B0C"/><circle cx="${118-i*12}" cy="${y+20}" r="2.3" fill="#3A1B0C"/>`;
+    y += 30;
+  }
+  if (o.bacon){
+    couches += `
+    <path d="M26 ${y-4}c14-9 28 9 42 0s28 9 42 0 28 9 42 0v13c-14 9-28-9-42 0s-28-9-42 0-28 9-42 0Z" fill="#C0392B"/>
+    <path d="M26 ${y+1}c14-9 28 9 42 0s28 9 42 0 28 9 42 0" stroke="#F0A090" stroke-width="3.5" fill="none" opacity=".7"/>`;
+    y += 14;
+  }
+  const bas = y + 2, h = bas + 36;
+  return `
+  <ellipse cx="100" cy="${bas+27}" rx="74" ry="11" fill="#FF2E92" opacity=".22"/>
+  <path d="M24 78C24 38 58 16 100 16s76 22 76 62Z" fill="#DE9E4E"/>
+  <path d="M38 70C44 42 68 26 98 25c14 0 26 4 35 11-26-8-72 2-95 34Z" fill="#F4C67E" opacity=".9"/>
+  <path d="M24 70h152v8H24z" fill="#C9873C"/>
+  <path d="M18 76h164v8q-10.25 10-20.5 0-10.25 10-20.5 0-10.25 10-20.5 0-10.25 10-20.5 0-10.25 10-20.5 0-10.25 10-20.5 0-10.25 10-20.5 0-10.25 10-20.5 0Z" fill="#5FC63F"/>
+  <path d="M18 76h164v4H18z" fill="#7BDA5B"/>
+  ${couches}
+  <path d="M28 ${bas}h144v6c0 10-8 17-19 17H47c-11 0-19-7-19-17Z" fill="#CF8C3E"/>
+  <path d="M40 ${bas+16}h120c-4 5-11 7-19 7H59c-8 0-15-2-19-7Z" fill="#A96C2A"/>
+  <path d="M24 78C24 38 58 16 100 16" stroke="#FF2E92" stroke-width="4.5" fill="none" stroke-linecap="round" opacity=".55"/>
+  <path d="M100 16c42 0 76 22 76 62" stroke="#C79CFF" stroke-width="4" fill="none" stroke-linecap="round" opacity=".4"/>
+  <path d="M29 ${bas+8}c0 9 7 15 18 16" stroke="#FF2E92" stroke-width="4" fill="none" stroke-linecap="round" opacity=".45"/>
+  <!--H:${h}-->`;
+}
+function burgerSvg(o){
+  const inner = burgerInner(o);
+  const h = Number((inner.match(/<!--H:(\d+)-->/)||[])[1] || 190);
+  return svg("0 0 200 " + h, inner);
+}
+
+/* --- baguette ----------------------------------------------------------- */
+function baguetteInner(couleur){
+  const c = couleur || "#7A3B22";
+  return `
+  ${lueur(110,126,86,10)}
+  <g transform="rotate(-5 110 70)">
+    <rect x="12" y="68" width="196" height="34" rx="17" fill="#C2823A"/>
+    <rect x="12" y="68" width="196" height="12" rx="6" fill="#D4924A"/>
+    <path d="M18 58h184v10q-11.5 12-23 0-11.5 12-23 0-11.5 12-23 0-11.5 12-23 0-11.5 12-23 0-11.5 12-23 0-11.5 12-23 0-11.5 12-23 0Z" fill="#5FC63F"/>
+    <rect x="30" y="42" width="34" height="22" rx="8" fill="${c}" transform="rotate(-7 47 55)"/>
+    <rect x="68" y="40" width="32" height="22" rx="8" fill="${c}" transform="rotate(5 84 53)"/>
+    <rect x="104" y="42" width="34" height="22" rx="8" fill="${c}" transform="rotate(-4 121 55)"/>
+    <rect x="142" y="41" width="32" height="22" rx="8" fill="${c}" transform="rotate(6 158 54)"/>
+    <rect x="12" y="16" width="196" height="36" rx="18" fill="#E0A55C"/>
+    <rect x="12" y="16" width="196" height="14" rx="7" fill="#F0C182" opacity=".8"/>
+    <path d="M44 26l16-6M82 24l16-6M120 26l16-6M158 24l16-6" stroke="#B87A34" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+    <path d="M30 16h160" stroke="#FF2E92" stroke-width="4.5" stroke-linecap="round" opacity=".5"/>
+    <path d="M24 96q12 8 30 8" stroke="#C79CFF" stroke-width="4" fill="none" stroke-linecap="round" opacity=".4"/>
+  </g>`;
+}
+
+/* --- box du peuple ------------------------------------------------------ */
+function boxInner(){
+  return `
+  ${lueur(100,164,76,11)}
+  <path d="M30 76 42 30h116l12 46Z" fill="#B87C3E"/>
+  <path d="M38 72 48 38h104l10 34Z" fill="#8E5C2A" opacity=".55"/>
+  <g transform="translate(26 20) scale(.46)">${burgerInner({patties:1})}</g>
+  <g transform="translate(112 10) rotate(6)">
+    <rect x="0" y="0" width="14" height="62" rx="7" fill="#FFC814"/>
+    <rect x="18" y="-7" width="14" height="68" rx="7" fill="#FFD84D" transform="rotate(8 25 27)"/>
+    <rect x="37" y="3" width="14" height="60" rx="7" fill="#FFC814" transform="rotate(-7 44 33)"/>
+  </g>
+  <path d="M104 56q14-10 30-4t18 20" stroke="#FFB020" stroke-width="8" fill="none" stroke-linecap="round" opacity=".9"/>
+  <ellipse cx="124" cy="62" rx="5" ry="3" fill="#9A5A22"/><ellipse cx="142" cy="68" rx="5" ry="3" fill="#9A5A22"/>
+  <path d="M26 72h148l-10 84q-1 6-8 6H44q-7 0-8-6Z" fill="#CE9455"/>
+  <path d="M26 72h148l-2 16H28Z" fill="#AE7739"/>
+  <path d="M36 92h128l-7 62q-1 4-6 4H49q-5 0-6-4Z" fill="#D9A164" opacity=".35"/>
+  <rect x="56" y="112" width="88" height="20" rx="4" fill="#FFC814" transform="rotate(-2 100 122)"/>
+  <path d="M26 72h148" stroke="#FF2E92" stroke-width="4.5" stroke-linecap="round" opacity=".5"/>
+  <path d="M28 84l9 72" stroke="#C79CFF" stroke-width="4" stroke-linecap="round" fill="none" opacity=".35"/>`;
+}
+
+/* --- frites ------------------------------------------------------------- */
+function fritesInner(){
+  return `
+  ${lueur(100,164,68,10)}
+  <g transform="translate(52 14)">
+    <rect x="0" y="6" width="15" height="84" rx="7" fill="#FFC814" transform="rotate(-11 7 48)"/>
+    <rect x="18" y="-4" width="15" height="92" rx="7" fill="#FFD84D" transform="rotate(-4 25 42)"/>
+    <rect x="37" y="0" width="15" height="90" rx="7" fill="#FFC814" transform="rotate(3 44 45)"/>
+    <rect x="56" y="-6" width="15" height="94" rx="7" fill="#FFD84D" transform="rotate(9 63 41)"/>
+    <rect x="74" y="8" width="15" height="82" rx="7" fill="#FFC814" transform="rotate(15 81 49)"/>
+  </g>
+  <path d="M46 88q18-12 36-4t34 2 30-8" stroke="#FFB020" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <ellipse cx="72" cy="86" rx="6" ry="3.4" fill="#A0601F" transform="rotate(-12 72 86)"/>
+  <ellipse cx="108" cy="80" rx="6" ry="3.4" fill="#A0601F" transform="rotate(10 108 80)"/>
+  <ellipse cx="136" cy="86" rx="6" ry="3.4" fill="#A0601F" transform="rotate(-6 136 86)"/>
+  <path d="M44 92h112l-11 66q-1 5-7 5H62q-6 0-7-5Z" fill="#E1245E"/>
+  <path d="M44 92h112l-2 13H46Z" fill="#FF2E92"/>
+  <path d="M60 116h80l-7 42H67Z" fill="#fff" opacity=".12"/>
+  <path d="M44 92h112" stroke="#FFC814" stroke-width="4" stroke-linecap="round" opacity=".6"/>`;
+}
+
+/* --- tenders ------------------------------------------------------------ */
+function tendersInner(){
+  const bande = (x,y,rot,c1,c2) => `
+  <g transform="translate(${x} ${y}) rotate(${rot})">
+    <path d="M2 16C2 6 10 0 21 1l84 4c13 1 21 8 20 17s-10 15-23 14L18 32C8 31 2 25 2 16Z" fill="${c1}"/>
+    <path d="M10 10c4-4 10-6 17-5l70 3" stroke="${c2}" stroke-width="5" stroke-linecap="round" fill="none" opacity=".8"/>
+    <circle cx="34" cy="20" r="2.7" fill="#A96C1E"/><circle cx="60" cy="13" r="2.7" fill="#A96C1E"/>
+    <circle cx="84" cy="22" r="2.7" fill="#A96C1E"/><circle cx="106" cy="15" r="2.7" fill="#A96C1E"/>
+    <path d="M8 24c7 5 16 7 27 8l84 3" stroke="#9A5F18" stroke-width="3" fill="none" opacity=".45"/>
+  </g>`;
+  return `
+  ${lueur(100,138,74,10)}
+  ${bande(10,28,-9,"#D89231","#EDB863")}
+  ${bande(20,62,5,"#E8A845","#F6CD86")}
+  ${bande(14,96,-3,"#E0A03C","#F2C173")}
+  <g transform="translate(142 88)">
+    <path d="M0 6h44l-5 30q-1 5-7 5H12q-6 0-7-5Z" fill="#F2F0F5"/>
+    <ellipse cx="22" cy="8" rx="22" ry="7" fill="#E8563A"/>
+    <ellipse cx="22" cy="8" rx="13" ry="4" fill="#C63B22"/>
+  </g>`;
+}
+
+/* --- canette / bouteille ------------------------------------------------ */
+function canetteInner(couleur){
+  const c = couleur || "#D8122C";
+  return `
+  ${lueur(60,158,36,8)}
+  <path d="M26 44q0-10 9-13h50q9 3 9 13v84q0 11-9 14H35q-9-3-9-14Z" fill="${c}"/>
+  <rect x="30" y="22" width="60" height="14" rx="6" fill="#C9CED6"/>
+  <ellipse cx="60" cy="24" rx="30" ry="7" fill="#E6EAEF"/>
+  <ellipse cx="60" cy="24" rx="16" ry="4" fill="#B9BEC7"/>
+  <rect x="26" y="70" width="68" height="18" fill="#fff" opacity=".18"/>
+  <rect x="34" y="46" width="11" height="90" rx="5.5" fill="#fff" opacity=".24"/>
+  <rect x="78" y="52" width="6" height="78" rx="3" fill="#000" opacity=".16"/>
+  <circle cx="52" cy="104" r="3" fill="#fff" opacity=".28"/><circle cx="70" cy="118" r="2.4" fill="#fff" opacity=".22"/>
+  <path d="M26 57q0-10 9-13" stroke="#FF2E92" stroke-width="4" fill="none" stroke-linecap="round" opacity=".6"/>
+  <path d="M94 60v66" stroke="#C79CFF" stroke-width="4" stroke-linecap="round" opacity=".4"/>`;
+}
+function bouteilleInner(couleur){
+  const c = couleur || "#3FA9E0";
+  return `
+  ${lueur(60,158,32,8)}
+  <rect x="50" y="14" width="20" height="16" rx="4" fill="#E6EAEF"/>
+  <path d="M48 30h24l10 20q4 8 4 18v70q0 10-10 10H44q-10 0-10-10V68q0-10 4-18Z" fill="${c}" opacity=".55"/>
+  <path d="M38 78h44v14H38zM38 104h44v12H38z" fill="#fff" opacity=".18"/>
+  <rect x="34" y="88" width="52" height="30" rx="4" fill="#fff" opacity=".85"/>
+  <rect x="34" y="88" width="52" height="10" rx="4" fill="${c}"/>
+  <rect x="42" y="40" width="9" height="86" rx="4.5" fill="#fff" opacity=".35"/>
+  <path d="M48 30 38 52" stroke="#FF2E92" stroke-width="4" stroke-linecap="round" opacity=".55"/>`;
+}
+
+const DESSINS = {
+  burger   : p => burgerSvg(p||{}),
+  baguette : p => svg("0 0 220 140", baguetteInner((p||{}).couleur)),
+  box      : () => svg("0 0 200 175", boxInner()),
+  frites   : () => svg("0 0 200 175", fritesInner()),
+  tenders  : () => svg("0 0 200 150", tendersInner()),
+  canette  : p => svg("0 0 120 175", canetteInner((p||{}).couleur)),
+  bouteille: p => svg("0 0 120 175", bouteilleInner((p||{}).couleur))
+};
+function dessin(p){
+  const f = DESSINS[p.ico] || DESSINS.burger;
+  return f(p);
+}
+
+/* --- petites icônes ----------------------------------------------------- */
+const ICO = {
+  couronne:`<svg viewBox="0 0 64 40" class="couronne" aria-hidden="true"><path d="M4 36 8 8l14 12L32 2l10 18 14-12 4 28Z" fill="#FFC814"/><path d="M4 36h56v4H4z" fill="#E0A800"/></svg>`,
+  feuille :`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4C9 4 4 10 4 17c0 2 1 3 1 3s4-9 15-11c0 0-7 3-10 11 8 2 14-4 14-12 0-2 0-4-4-4Z" fill="currentColor"/></svg>`,
+  toque   :`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 11a4 4 0 1 1 1.5-7.7A4.5 4.5 0 0 1 16.5 3 4 4 0 1 1 18 11Z" fill="currentColor"/><rect x="6" y="12" width="12" height="8" rx="2" fill="currentColor"/></svg>`,
+  coeur   :`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21S3 14.7 3 8.9A4.9 4.9 0 0 1 12 6a4.9 4.9 0 0 1 9 2.9C21 14.7 12 21 12 21Z" fill="currentColor"/></svg>`,
+  chat    :`<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 4h20a3 3 0 0 1 3 3v13a3 3 0 0 1-3 3H14l-8 6v-6a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3Z" fill="#fff"/><circle cx="11" cy="13.5" r="2.2" fill="#7A22D9"/><circle cx="16" cy="13.5" r="2.2" fill="#FF2E92"/><circle cx="21" cy="13.5" r="2.2" fill="#FFC814"/></svg>`,
+  panier  :`<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 18h44l-5 34a6 6 0 0 1-6 5H21a6 6 0 0 1-6-5Z" fill="none" stroke="#8574A0" stroke-width="4"/><path d="M22 18a10 10 0 0 1 20 0" fill="none" stroke="#8574A0" stroke-width="4"/></svg>`
+};
+
+/* =========================================================================
+   5) ÉTAT + MÉMOIRE
+   ========================================================================= */
+const state = {
+  ecran:"accueil",        // accueil | menu | commande | confirmation | cuisine
+  mode:"emporter",        // emporter | livraison
+  cat:"box",
+  panier:[],
+  fiche:null, choix:{}, qtyFiche:1,
+  panierOuvert:false,
+  assistant:null,
+  creneau:null,
+  paiement:"place",
+  client:{prenom:"",tel:"",adresse:"",note:""},
+  commandes:[], derniere:null, compteur:13
+};
+
+const CLE = "one-snack-v2";
+function sauver(){
+  try{
+    localStorage.setItem(CLE, JSON.stringify({
+      panier:state.panier, client:state.client, mode:state.mode,
+      commandes:state.commandes, compteur:state.compteur
+    }));
+  }catch(e){/* navigation privée : on continue sans mémoire */}
+}
+function relire(){
+  try{
+    const d = JSON.parse(localStorage.getItem(CLE) || "{}");
+    if (Array.isArray(d.panier)) state.panier = d.panier;
+    if (d.client) state.client = Object.assign(state.client, d.client);
+    if (d.mode) state.mode = d.mode;
+    if (Array.isArray(d.commandes)) state.commandes = d.commandes;
+    if (typeof d.compteur === "number") state.compteur = d.compteur;
+  }catch(e){}
+}
+
+/* =========================================================================
+   6) OUTILS
+   ========================================================================= */
+const $ = s => document.querySelector(s);
+const app = $("#app");
+
+function euro(n){
+  const v = Math.round(n*100)/100;
+  return v.toFixed(2).replace(".",",").replace(",00","") + " €";
+}
+function esc(s){ return String(s==null?"":s).replace(/[<>&"]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;"}[c])); }
+function produit(id){ return MENU.find(p => p.id === id); }
+function categorie(id){ return CATEGORIES.find(c => c.id === id); }
+function hm(h){ return h.replace(":","h"); }
+
+/* visuel = dessin maison, recouvert par la photo si elle charge */
+function visuel(p, extra){
+  const url = p.photo ? PHOTOS[p.photo] : null;
+  return `<span class="visuel ${extra||""}">${dessin(p)}${
+    url ? `<img src="${esc(url)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ""
+  }</span>`;
+}
+function pastilles(p){
+  if (p.prixMenu) return `<span class="pastilles"><span class="seul"><b>${euro(p.prix)}</b> seul</span><span class="menu"><b>${euro(p.prixMenu)}</b> en menu</span></span>`;
+  return `<span class="pastilles"><span class="solo"><b>${euro(p.prix)}</b></span></span>`;
+}
+
+/* --- créneaux de retrait ------------------------------------------------ */
+function listeCreneaux(){
+  const now = new Date();
+  const [oh,om] = RESTO.ouverture.split(":").map(Number);
+  const [fh,fm] = RESTO.fermeture.split(":").map(Number);
+  const ouvre = new Date(now); ouvre.setHours(oh,om,0,0);
+  const ferme = new Date(now); ferme.setHours(fh,fm,0,0);
+  const plusTot = new Date(now.getTime() + RESTO.preparationMin*60000);
+  let demain = false;
+  if (plusTot > ferme){ demain = true; ouvre.setDate(ouvre.getDate()+1); ferme.setDate(ferme.getDate()+1); }
+
+  let t = demain ? new Date(ouvre) : new Date(Math.max(ouvre.getTime(), plusTot.getTime()));
+  const pas = RESTO.pasCreneau;
+  const reste = t.getMinutes() % pas;
+  if (reste) t.setMinutes(t.getMinutes() + (pas - reste), 0, 0);
+
+  const liste = [];
+  while (t <= ferme && liste.length < 40){
+    liste.push(("0"+t.getHours()).slice(-2)+":"+("0"+t.getMinutes()).slice(-2));
+    t = new Date(t.getTime() + pas*60000);
+  }
+  return {demain, liste, ouvert: !demain && now >= ouvre && now <= ferme};
+}
+
+/* --- calculs ------------------------------------------------------------ */
+function sousTotal(){ return state.panier.reduce((s,l) => s + l.prixUnit*l.qty, 0); }
+function fraisLivraison(){ return state.mode === "livraison" ? RESTO.livraison.frais : 0; }
+function totalPanier(){ return sousTotal() + fraisLivraison(); }
+function nbArticles(){ return state.panier.reduce((s,l) => s + l.qty, 0); }
+function minimumOk(){ return state.mode !== "livraison" || sousTotal() >= RESTO.livraison.minimum; }
+
+/* --- ajout au panier ---------------------------------------------------- */
+function ajouter(ligne){
+  const existe = state.panier.find(l => l.cle === ligne.cle);
+  if (existe) existe.qty += ligne.qty;
+  else state.panier.push(Object.assign({uid:Math.random().toString(36).slice(2,9)}, ligne));
+  sauver();
+}
+function ligneProduit(id, formule, details, prixUnit, qty){
+  const p = produit(id);
+  const d = details || [];
+  return {cle:id+"|"+d.join("|"), produitId:id, nom:p.nom, details:d,
+          prixUnit: prixUnit != null ? prixUnit : (formule === "menu" ? p.prixMenu : p.prix), qty: qty||1};
+}
+
+/* =========================================================================
+   7) RENDU
+   ========================================================================= */
+function render(){
+  const v = {accueil:vueAccueil, menu:vueMenu, commande:vueCommande,
+             confirmation:vueConfirmation, cuisine:vueCuisine}[state.ecran] || vueAccueil;
+  let html = v();
+  if (state.panierOuvert) html += vuePanierMobile();
+  if (state.fiche) html += vueFiche();
+  if (state.assistant) html += vueAssistant();
+  app.innerHTML = html;
+  if (state.ecran === "commande") brancherChamps();
+  mesurerBarre();
+  const fil = app.querySelector(".fil");
+  if (fil) fil.scrollTop = fil.scrollHeight;
+}
+function mesurerBarre(){
+  const b = app.querySelector(".barre");
+  document.documentElement.style.setProperty("--h-barre", (b ? b.offsetHeight + 5 : 66) + "px");
+}
+function logo(taille){
+  return `<span class="logo logo-${taille}"><span class="one">One</span><span class="snack">Snack</span></span>`;
+}
+
+/* --- accueil ------------------------------------------------------------ */
+function vueAccueil(){
+  const c = listeCreneaux();
+  return `
+  <div class="ecran accueil">
+    <div class="accueil-fond">
+      <img src="${esc(PHOTOS.camion)}" alt="" onerror="this.remove()">
+    </div>
+    <div class="accueil-corps">
+      ${ICO.couronne}
+      ${logo("xl")}
+      <div class="brush" style="font-size:clamp(21px,4vw,29px);color:var(--magenta);margin-top:10px;transform:rotate(-1.5deg)">Food truck · Colmar</div>
+      <p class="accroche">Commandez maintenant, passez le prendre <b>à l'heure que vous voulez</b>. Zéro file d'attente au camion.</p>
+      <span class="statut">
+        <span class="point ${c.ouvert?"":"off"}"></span>
+        ${c.ouvert ? "Ouvert — on prend les commandes" : "Fermé — commandez pour demain"}
+        <span style="color:var(--gris-2)">${hm(RESTO.ouverture)}–${hm(RESTO.fermeture)}</span>
+      </span>
+      <div class="modes">
+        <button class="btn btn-jaune" data-action="demarrer" data-mode="emporter">
+          <span class="lbl">Commander<span class="sous">À emporter, au camion</span></span>
+        </button>
+        <button class="btn btn-rose" data-action="assistant">
+          ${ICO.chat}
+          <span class="lbl">Je choisis pour vous<span class="sous">3 questions, votre menu est prêt</span></span>
+        </button>
+        <button class="btn btn-creux" data-action="demarrer" data-mode="livraison">
+          <span class="lbl">Livraison<span class="sous">${esc(RESTO.livraison.zone)} · ${euro(RESTO.livraison.frais)} · min. ${euro(RESTO.livraison.minimum)}</span></span>
+        </button>
+      </div>
+      <div class="infos-camion">
+        <span><b>${esc(RESTO.adresseCourte)}</b></span>
+        <span>${esc(RESTO.jours)} · ${hm(RESTO.ouverture)}–${hm(RESTO.fermeture)}</span>
+      </div>
+      <button class="lien-discret" data-action="cuisine" style="margin-top:12px">Vue cuisine (côté camion)</button>
+      <p class="demo-ligne">Démo — aucun paiement réel n'est encaissé</p>
+    </div>
+    <div class="reassurance">
+      <span><i>${ICO.feuille}</i>Produits frais</span>
+      <span><i>${ICO.toque}</i>Fait maison</span>
+      <span><i>${ICO.coeur}</i>Préparé avec passion</span>
+    </div>
+  </div>`;
+}
+
+/* --- menu --------------------------------------------------------------- */
+function vueMenu(){
+  const cat = categorie(state.cat) || CATEGORIES[0];
+  const produits = MENU.filter(p => p.cat === state.cat);
+  const photoCat = cat.photo ? PHOTOS[cat.photo] : null;
+  return `
+  <div class="ecran avec-panier">
+    <header class="barre">
+      <button class="rond" data-action="accueil" aria-label="Revenir à l'accueil">←</button>
+      ${logo("s")}
+      <div class="barre-droite">
+        <button class="rond rond-ass" data-action="assistant" aria-label="Ouvrir l'assistant">${ICO.chat}</button>
+        <span class="mode-actif">${state.mode === "livraison" ? "Livraison" : "À emporter"}</span>
+        ${state.panier.length ? `
+        <button class="btn-panier" data-action="ouvrir-panier">
+          <span class="n">${nbArticles()}</span>${euro(totalPanier())}
+        </button>` : ""}
+      </div>
+    </header>
+    <div class="filet"></div>
+    <nav class="chips" aria-label="Catégories">
+      ${CATEGORIES.map(c => `
+        <button class="chip" data-action="cat" data-cat="${c.id}" aria-current="${c.id===state.cat}">
+          ${DESSINS[c.ico]()}<span>${esc(c.nom)}</span>
+        </button>`).join("")}
+    </nav>
+    <div class="zone">
+      <nav class="rail" aria-label="Catégories">
+        ${CATEGORIES.map(c => `
+          <button data-action="cat" data-cat="${c.id}" aria-current="${c.id===state.cat}">
+            ${DESSINS[c.ico]()}<span class="nom">${esc(c.nom)}</span>
+          </button>`).join("")}
+      </nav>
+      <main class="contenu">
+        <div class="banniere">
+          ${photoCat ? `<img src="${esc(photoCat)}" alt="" onerror="this.remove()">` : ""}
+          <div class="banniere-txt">
+            <h1 class="titre">${esc(cat.titre)}</h1>
+            <p>${esc(cat.sous)}</p>
+          </div>
+        </div>
+        <div class="cartes">${produits.map(carte).join("")}</div>
+        <p style="color:var(--gris-2);font-size:13px;margin:22px 0 0;max-width:60ch">
+          Allergènes et compositions détaillées : demandez à l'équipe au camion.
+        </p>
+      </main>
+      ${vuePanier()}
+    </div>
+    ${state.panier.length ? `
+    <div class="barre-panier">
+      <button class="btn btn-jaune" data-action="commande">
+        <span class="n">${nbArticles()}</span> Voir ma commande · ${euro(totalPanier())}
+      </button>
+    </div>` : ""}
+  </div>`;
+}
+
+function carte(p){
+  const simple = !p.prixMenu && !(p.groupes||[]).length;   // ajout direct possible
+  return `
+  <article class="carte${p.vedette?" vedette":""}">
+    ${p.badge ? `<span class="sticker${p.vedette?" jaune":""}">${esc(p.badge)}</span>` : ""}
+    ${visuel(p)}
+    <div class="carte-corps">
+      <h3>${esc(p.nom)}</h3>
+      <p class="desc">${esc(p.desc||"")}</p>
+      <div class="bas">
+        ${pastilles(p)}
+        <button class="plus" data-action="${simple?"rapide":"ouvrir"}" data-id="${p.id}"
+                aria-label="Ajouter ${esc(p.nom)}">+</button>
+      </div>
+    </div>
+    <button class="surface" data-action="ouvrir" data-id="${p.id}" aria-label="Voir ${esc(p.nom)}"></button>
+  </article>`;
+}
+
+/* --- panier ------------------------------------------------------------- */
+function contenuPanier(){
+  return `
+    ${state.panier.length ? `<div class="lignes">${state.panier.map(ligne).join("")}</div>` : `
+      <div class="vide">${ICO.panier}Votre commande est vide.<br>Touchez un produit pour l'ajouter.</div>`}
+    <div class="total-zone">
+      ${state.mode === "livraison" ? `<div class="total"><span>Livraison</span><span>${euro(RESTO.livraison.frais)}</span></div>` : ""}
+      ${state.panier.length && !minimumOk() ? `<div class="alerte">Livraison à partir de ${euro(RESTO.livraison.minimum)} de commande. Il manque ${euro(RESTO.livraison.minimum - sousTotal())}.</div>` : ""}
+      <div class="total"><span>Total</span><span class="g">${euro(totalPanier())}</span></div>
+      <button class="btn btn-jaune" data-action="commande" ${state.panier.length && minimumOk() ? "" : "disabled"}>Valider ma commande</button>
+      ${state.panier.length ? `<button class="lien-vider" data-action="vider">Tout enlever</button>` : ""}
+    </div>`;
+}
+function vuePanier(){
+  return `<aside class="panier" aria-label="Votre commande">
+    <h2 class="titre panier-titre">Votre commande</h2>${contenuPanier()}</aside>`;
+}
+function vuePanierMobile(){
+  return `
+  <div class="voile" data-action="fermer-voile">
+    <div class="feuille" role="dialog" aria-modal="true" aria-label="Votre commande" style="padding-bottom:0">
+      <div style="display:flex;align-items:center;padding:16px 16px 10px;border-bottom:var(--bord)">
+        <h2 class="titre" style="font-size:24px;margin:0;flex:1">Votre commande</h2>
+        <button class="rond" data-action="fermer" aria-label="Fermer" style="width:42px;height:42px">✕</button>
+      </div>
+      ${contenuPanier()}
+    </div>
+  </div>`;
+}
+function ligne(l){
+  return `
+  <div class="ligne">
+    <div class="h"><span class="n">${esc(l.nom)}</span><span class="p">${euro(l.prixUnit*l.qty)}</span></div>
+    ${l.details.length ? `<div class="d">${esc(l.details.join(" · "))}</div>` : ""}
+    <div class="qty" style="justify-self:start">
+      <button data-action="qty-ligne" data-uid="${l.uid}" data-delta="-1" aria-label="Retirer">−</button>
+      <span>${l.qty}</span>
+      <button data-action="qty-ligne" data-uid="${l.uid}" data-delta="1" aria-label="Ajouter">+</button>
+    </div>
+  </div>`;
+}
+
+/* --- fiche produit ------------------------------------------------------ */
+function groupesDuProduit(p){
+  const g = [];
+  if (p.prixMenu) g.push("formule");
+  if (state.choix.formule === "menu") g.push("accomp","boisson");
+  (p.groupes||[]).forEach(x => { if (!g.includes(x)) g.push(x); });
+  return g;
+}
+function prixFiche(){
+  const p = state.fiche;
+  let total = state.choix.formule === "menu" ? p.prixMenu : p.prix;
+  groupesDuProduit(p).forEach(gid => {
+    if (gid === "formule") return;
+    const G = GROUPES[gid]; if (!G) return;
+    if (G.type === "unique"){
+      const o = G.options.find(o => o.id === state.choix[gid]);
+      if (o) total += (o.sup||0);
+    } else {
+      (state.choix[gid]||[]).forEach((id,i) => {
+        const o = G.options.find(o => o.id === id); if (!o) return;
+        if (G.gratuit !== undefined){ if (i >= G.gratuit) total += 0.5; }
+        else total += (o.sup||0);
+      });
+    }
+  });
+  return total;
+}
+function vueFiche(){
+  const p = state.fiche;
+  const gs = groupesDuProduit(p);
+  return `
+  <div class="voile" data-action="fermer-voile">
+    <div class="feuille" role="dialog" aria-modal="true" aria-label="${esc(p.nom)}">
+      <div class="feuille-haut">
+        ${dessin(p)}
+        ${p.photo ? `<img src="${esc(PHOTOS[p.photo])}" alt="" onerror="this.remove()">` : ""}
+        <button class="fermer" data-action="fermer" aria-label="Fermer">✕</button>
+      </div>
+      <div class="feuille-corps">
+        <h2 class="titre">${esc(p.nom)}</h2>
+        <p class="desc">${esc(p.desc||"")}</p>
+        ${gs.map(gid => gid === "formule" ? groupeFormule(p) : groupeOptions(gid)).join("")}
+      </div>
+      <div class="feuille-pied">
+        <div class="qty">
+          <button data-action="qty-fiche" data-delta="-1" aria-label="Moins">−</button>
+          <span>${state.qtyFiche}</span>
+          <button data-action="qty-fiche" data-delta="1" aria-label="Plus">+</button>
+        </div>
+        <button class="btn btn-jaune" data-action="ajouter">Ajouter · ${euro(prixFiche()*state.qtyFiche)}</button>
+      </div>
+    </div>
+  </div>`;
+}
+function groupeFormule(p){
+  const d = Math.round((p.prixMenu - p.prix)*100)/100;
+  return `
+  <div class="groupe">
+    <h3>Seul ou en menu ?</h3>
+    <p class="aide">Le menu ajoute une frite et une boisson</p>
+    <div class="options">
+      <button class="opt formule" data-action="opt" data-groupe="formule" data-valeur="seul" aria-pressed="${state.choix.formule==="seul"}">
+        <span class="lbl">Seul</span><span class="sup">${euro(p.prix)}</span>
+      </button>
+      <button class="opt formule" data-action="opt" data-groupe="formule" data-valeur="menu" aria-pressed="${state.choix.formule==="menu"}">
+        <span class="lbl">En menu</span><span class="sup">${euro(p.prixMenu)} · + ${euro(d)}</span>
+      </button>
+    </div>
+  </div>`;
+}
+function groupeOptions(gid){
+  const G = GROUPES[gid]; if (!G) return "";
+  const sel = state.choix[gid];
+  return `
+  <div class="groupe">
+    <h3>${esc(G.titre)}</h3>
+    <p class="aide">${esc(G.aide||"")}${G.requis?` <span class="obligatoire">· à choisir</span>`:""}</p>
+    <div class="options">
+      ${G.options.map(o => {
+        const actif = G.type === "unique" ? sel === o.id : (sel||[]).includes(o.id);
+        let sup = "";
+        if (G.type === "multi" && G.gratuit !== undefined){
+          const i = (sel||[]).indexOf(o.id);
+          sup = (i >= G.gratuit) ? "+ 0,50 €" : "";
+        } else if (o.sup) sup = "+ " + euro(o.sup);
+        return `
+        <button class="opt" data-action="opt" data-groupe="${gid}" data-valeur="${o.id}" aria-pressed="${actif}">
+          ${G.type === "multi" ? `<span class="coche">${actif?"✓":""}</span>` : ""}
+          <span class="lbl">${esc(o.nom)}</span>
+          ${sup ? `<span class="sup">${sup}</span>` : ""}
+        </button>`;
+      }).join("")}
+    </div>
+  </div>`;
+}
+
+/* =========================================================================
+   8) L'ASSISTANT — 3 questions, un menu prêt à valider
+   ========================================================================= */
+const QUESTIONS = [
+  {id:"faim", q:"Vous avez quelle faim ?", opts:[
+    {v:"petite", l:"Petite faim"}, {v:"normale", l:"Faim normale"},
+    {v:"grosse", l:"Grosse faim"}, {v:"enorme", l:"Énorme"}]},
+  {id:"envie", q:"Plutôt smash burger ou baguette ?", opts:[
+    {v:"smash", l:"Smash burger"}, {v:"baguette", l:"Baguette"}, {v:"peu", l:"Peu importe"}]},
+  {id:"nb", q:"Vous êtes combien ?", opts:[
+    {v:"1", l:"Tout seul"}, {v:"2", l:"À deux"}, {v:"3", l:"À trois"}, {v:"4", l:"4 et +"}]}
+];
+
+/* Réponses rapides — à relire / adapter par le camion */
+const FAQ = [
+  {q:"Vous livrez ?", r:() => `Oui : ${RESTO.livraison.zone}, ${euro(RESTO.livraison.frais)} de frais, à partir de ${euro(RESTO.livraison.minimum)} de commande.`},
+  {q:"C'est prêt en combien de temps ?", r:() => `Comptez environ ${RESTO.preparationMin} minutes. Vous choisissez ensuite l'heure exacte de retrait, à la minute près.`},
+  {q:"Où est le camion ?", r:() => `${RESTO.adresse}. Ouvert ${RESTO.jours.toLowerCase()} de ${hm(RESTO.ouverture)} à ${hm(RESTO.fermeture)}.`},
+  {q:"Sans porc ?", r:() => `Le bacon est le seul produit à base de porc de la carte : prenez le même sandwich sans bacon, ou côté kefta, poulet, merguez et crevette.`},
+  {q:"Et sans viande ?", r:() => `Frites maison, frites cheddar oignons et boissons. Pour le reste, demandez à l'équipe au camion.`}
+];
+
+function ouvrirAssistant(){
+  state.assistant = {etape:0, rep:{}, fil:[
+    {qui:"ass", txt:"Salut 👋 Je compose votre commande en 3 questions. C'est parti."},
+    {qui:"ass", txt:QUESTIONS[0].q}
+  ], propo:null, variante:0};
+  render();
+}
+function repondre(val){
+  const a = state.assistant;
+  const Q = QUESTIONS[a.etape];
+  const opt = Q.opts.find(o => o.v === val);
+  a.rep[Q.id] = val;
+  a.fil.push({qui:"moi", txt:opt ? opt.l : val});
+  a.etape++;
+  if (a.etape < QUESTIONS.length){
+    a.fil.push({qui:"ass", txt:QUESTIONS[a.etape].q});
+  } else {
+    a.propo = composer(a.rep, a.variante);
+    a.fil.push({qui:"ass", txt:a.propo.pourquoi});
+  }
+  render();
+}
+
+/* --- la logique : simple, lisible, modifiable --------------------------- */
+function composer(rep, variante){
+  const nb = Math.max(1, parseInt(rep.nb,10) || 1);
+  const v = (variante||0);
+  const smash = ["smash-2","smash-3","smash-2b","smash-1"];
+  const bag   = ["sw-kefta","sw-curry","sw-tandori","sw-bavette"];
+  const lignes = [];
+  let pourquoi = "";
+
+  const ajout = (id, formule, extras) => {
+    const p = produit(id);
+    const details = [];
+    let prix = p.prix;
+    if (formule === "menu" && p.prixMenu){
+      details.push("En menu","Frites maison","Coca-Cola");
+      prix = p.prixMenu;
+    } else if (p.prixMenu) details.push("Seul");
+    if (extras) extras.forEach(e => details.push(e));
+    lignes.push(ligneProduit(id, formule, details, prix, 1));
+  };
+
+  for (let i=0; i<nb; i++){
+    const j = (i + v) % 4;
+    const envie = rep.envie === "peu" ? (i % 2 ? "baguette" : "smash") : rep.envie;
+    if (rep.faim === "petite"){
+      envie === "baguette" ? ajout(bag[j], "seul") : ajout(smash[3], "seul");
+      pourquoi = "Petite faim : un produit seul suffit, sans frites ni boisson.";
+    } else if (rep.faim === "normale"){
+      if (rep.envie === "peu"){ ajout("box-peuple", null, ["Coca-Cola"]); pourquoi = "La Box du Peuple : burger + tenders + frites cheddar + boisson pour 10 €. Le meilleur rapport de la carte."; }
+      else { envie === "baguette" ? ajout(bag[j], "menu") : ajout(smash[(v)%3], "menu"); pourquoi = "En menu : le produit, les frites et la boisson — l'écart avec le produit seul est de 3 €."; }
+    } else if (rep.faim === "grosse"){
+      if (envie === "baguette"){ ajout("sw-bavette", "menu"); }
+      else { ajout("box-peuple", null, ["Coca-Cola"]); }
+      pourquoi = "Grosse faim : on part sur la formule complète, plus des tenders à côté si vous voulez pousser.";
+    } else {
+      if (envie === "baguette"){ ajout(bag[j], "menu"); ajout("tenders-4", null); }
+      else { ajout("box-peuple", null, ["Coca-Cola"]); ajout(smash[v%3], "seul"); }
+      pourquoi = "Énorme faim : une formule complète plus un supplément. On ne repart pas en ayant faim.";
+    }
+  }
+  /* on regroupe les lignes identiques */
+  const groupees = [];
+  lignes.forEach(l => {
+    const m = groupees.find(g => g.cle === l.cle);
+    if (m) m.qty++; else groupees.push(Object.assign({}, l));
+  });
+  const total = groupees.reduce((s,l) => s + l.prixUnit*l.qty, 0);
+  return {lignes:groupees, total, pourquoi};
+}
+
+function vueAssistant(){
+  const a = state.assistant;
+  const Q = QUESTIONS[a.etape];
+  return `
+  <div class="assistant" data-action="fermer-voile">
+    <div class="assistant-boite" role="dialog" aria-modal="true" aria-label="Assistant de commande">
+      <div class="assistant-haut">
+        <span class="avatar">${ICO.chat}</span>
+        <span class="qui"><b>L'assistant</b><span>Il compose, vous validez</span></span>
+        <button class="rond" data-action="fermer" aria-label="Fermer" style="width:42px;height:42px">✕</button>
+      </div>
+      <div class="fil">
+        ${a.fil.map(b => `<div class="bulle ${b.qui==="moi"?"moi":""}">${esc(b.txt)}</div>`).join("")}
+        ${a.propo ? bulleProposition(a.propo) : ""}
+      </div>
+      ${Q ? `<div class="reponses">
+        ${Q.opts.map(o => `<button class="rep" data-action="ass-rep" data-val="${o.v}">${esc(o.l)}</button>`).join("")}
+      </div>` : ""}
+      ${!Q ? `<div class="assistant-pied">
+        <button class="btn btn-jaune btn-s" data-action="ass-valider">Ajouter au panier · ${euro(a.propo.total)}</button>
+        <div style="display:flex;gap:9px">
+          <button class="btn btn-creux btn-s" data-action="ass-autre" style="flex:1">Une autre idée</button>
+          <button class="btn btn-creux btn-s" data-action="ass-carte" style="flex:1">Voir la carte</button>
+        </div>
+      </div>` : `<div class="reponses" style="border-top:var(--bord);padding-top:10px">
+        ${FAQ.map((f,i) => `<button class="rep faq" data-action="ass-faq" data-i="${i}">${esc(f.q)}</button>`).join("")}
+      </div>`}
+    </div>
+  </div>`;
+}
+function bulleProposition(p){
+  return `
+  <div class="bulle" style="max-width:100%">
+    <div style="font-family:var(--f-cond);text-transform:uppercase;letter-spacing:.07em;font-size:13px;color:var(--gris);margin-bottom:6px">Ma proposition</div>
+    <div class="propo">
+      ${p.lignes.map(l => `
+        <div class="l"><span>${l.qty}× ${esc(l.nom)}${l.details.length?`<em>${esc(l.details.join(" · "))}</em>`:""}</span>
+        <span>${euro(l.prixUnit*l.qty)}</span></div>`).join("")}
+      <div class="sep"></div>
+      <div class="tot"><span>Total</span><b>${euro(p.total)}</b></div>
+    </div>
+  </div>`;
+}
+
+/* =========================================================================
+   9) COMMANDE (créneau, coordonnées, paiement)
+   ========================================================================= */
+function vueCommande(){
+  const c = listeCreneaux();
+  const liv = state.mode === "livraison";
+  return `
+  <div class="ecran">
+    <header class="barre">
+      <button class="rond" data-action="menu" aria-label="Revenir à la carte">←</button>
+      ${logo("s")}
+      <div class="barre-droite"><span class="mode-actif">${liv ? "Livraison" : "À emporter"}</span></div>
+    </header>
+    <div class="filet"></div>
+    <div class="page">
+      <h1 class="titre">Derniers détails</h1>
+
+      <section class="bloc">
+        <h2>${liv ? "Heure de livraison" : "Heure de retrait"}</h2>
+        <p class="aide">${c.demain ? "Le camion est fermé : on prépare pour demain." : "Votre commande sera prête pile à l'heure choisie."}</p>
+        ${c.liste.length ? `<div class="creneaux">
+          ${c.liste.map((h,i) => `
+            <button class="creneau" data-action="creneau" data-h="${h}" aria-pressed="${state.creneau===h}">
+              <span class="h">${hm(h)}</span>
+              <span class="s">${c.demain ? "demain" : (i===0 ? "au plus tôt" : "")}</span>
+            </button>`).join("")}
+        </div>` : `<p class="aide">Plus de créneau disponible aujourd'hui.</p>`}
+      </section>
+
+      <section class="bloc">
+        <h2>Vos coordonnées</h2>
+        <p class="aide">Pour vous prévenir dès que c'est prêt</p>
+        <div class="duo">
+          <div class="champ">
+            <label for="prenom">Prénom</label>
+            <input id="prenom" data-champ="prenom" value="${esc(state.client.prenom)}" placeholder="Karim" autocomplete="given-name">
+          </div>
+          <div class="champ">
+            <label for="tel">Téléphone</label>
+            <input id="tel" data-champ="tel" value="${esc(state.client.tel)}" placeholder="06 12 34 56 78" inputmode="tel" autocomplete="tel">
+          </div>
+        </div>
+        ${liv ? `
+        <div class="champ">
+          <label for="adresse">Adresse de livraison</label>
+          <input id="adresse" data-champ="adresse" value="${esc(state.client.adresse)}" placeholder="12 rue des Marchands, Colmar" autocomplete="street-address">
+        </div>` : ""}
+        <div class="champ">
+          <label for="note">Un mot pour la cuisine (facultatif)</label>
+          <textarea id="note" data-champ="note" rows="2" placeholder="Sans oignons, bien cuit…">${esc(state.client.note)}</textarea>
+        </div>
+      </section>
+
+      <section class="bloc">
+        <h2>Paiement</h2>
+        <p class="aide">Démo : aucun paiement réel n'est déclenché</p>
+        <div class="options">
+          <button class="opt" data-action="paiement" data-mode="place" aria-pressed="${state.paiement==="place"}">
+            <span class="lbl">Sur place</span><span class="sup">CB ou espèces</span>
+          </button>
+          <button class="opt" data-action="paiement" data-mode="ligne" aria-pressed="${state.paiement==="ligne"}">
+            <span class="lbl">En ligne</span><span class="sup">CB, Apple Pay</span>
+          </button>
+        </div>
+      </section>
+
+      ${blocSuggestion()}
+
+      <section class="bloc">
+        <h2>Récapitulatif</h2>
+        <div class="recap">
+          ${state.panier.map(l => `
+            <div class="r">
+              <span>${l.qty}× ${esc(l.nom)}${l.details.length?`<em>${esc(l.details.join(" · "))}</em>`:""}</span>
+              <span>${euro(l.prixUnit*l.qty)}</span>
+            </div>`).join("")}
+          ${liv ? `<div class="r"><span>Livraison</span><span>${euro(RESTO.livraison.frais)}</span></div>` : ""}
+          <div class="sep"></div>
+          <div class="r gros"><span>Total</span><span>${euro(totalPanier())}</span></div>
+        </div>
+        ${!minimumOk() ? `<div class="alerte">Livraison à partir de ${euro(RESTO.livraison.minimum)}. Il manque ${euro(RESTO.livraison.minimum - sousTotal())}.</div>` : ""}
+        <button class="btn btn-creux btn-s" data-action="menu">Ajouter autre chose</button>
+      </section>
+    </div>
+
+    <div class="barre-bas">
+      <div class="interne">
+        <button class="btn btn-jaune" id="btn-commande" data-action="commander" ${commandeValide()?"":"disabled"}>
+          ${commandeValide() ? "Commander · "+euro(totalPanier()) : manque()}
+        </button>
+      </div>
+    </div>
+  </div>`;
+}
+function manque(){
+  if (!state.panier.length) return "Votre panier est vide";
+  if (!minimumOk()) return "Minimum "+euro(RESTO.livraison.minimum)+" en livraison";
+  if (!state.creneau) return "Choisissez une heure";
+  if (!state.client.prenom.trim()) return "Indiquez votre prénom";
+  if (state.mode === "livraison" && !state.client.adresse.trim()) return "Indiquez votre adresse";
+  return "Commander";
+}
+function commandeValide(){ return manque() === "Commander"; }
+
+function blocSuggestion(){
+  const aBoire = state.panier.some(l => {
+    const p = produit(l.produitId);
+    return !p || p.cat === "boisson" || l.details.some(d => /boisson|coca|fanta|oasis|ice tea|eau|en menu/i.test(d));
+  });
+  if (aBoire) return "";
+  const sugg = ["coca","ice-tea","eau","frites"].map(produit).filter(Boolean);
+  return `
+  <section class="bloc">
+    <h2>Il manque de quoi boire</h2>
+    <p class="aide">Un clic, c'est ajouté</p>
+    <div class="options">
+      ${sugg.map(p => `
+        <button class="opt" data-action="rapide" data-id="${p.id}">
+          <span class="lbl">${esc(p.nom)}</span><span class="sup">+ ${euro(p.prix)}</span>
+        </button>`).join("")}
+    </div>
+  </section>`;
+}
+function brancherChamps(){
+  app.querySelectorAll("[data-champ]").forEach(el => {
+    el.addEventListener("input", e => {
+      state.client[e.target.dataset.champ] = e.target.value;
+      sauver(); majBouton();
+    });
+  });
+}
+function majBouton(){
+  const b = document.getElementById("btn-commande");
+  if (!b) return;
+  const ok = commandeValide();
+  b.disabled = !ok;
+  b.textContent = ok ? "Commander · "+euro(totalPanier()) : manque();
+}
+
+/* =========================================================================
+   10) CONFIRMATION + VUE CUISINE
+   ========================================================================= */
+function vueConfirmation(){
+  const c = state.derniere;
+  return `
+  <div class="ecran confirm">
+    <p style="color:var(--gris);margin:0 0 4px">${c.mode==="livraison"?"Livraison prévue à":"À récupérer à"} <b style="color:#fff">${hm(c.creneau)}</b></p>
+    <div class="numero">#${esc(c.numero)}</div>
+    <h1 class="titre" style="font-size:clamp(26px,5.4vw,38px);margin:14px 0 6px">C'est parti en cuisine</h1>
+    <p style="color:var(--gris);max-width:32ch;margin:0 auto">
+      ${c.mode==="livraison"
+        ? "On vous appelle en arrivant. Gardez le téléphone à portée."
+        : "Donnez ce numéro au camion, "+esc(RESTO.adresseCourte)+"."}
+    </p>
+    <div class="etapes">
+      <span class="etape on"><span class="rd"></span>Reçue</span>
+      <span class="etape"><span class="rd"></span>En préparation</span>
+      <span class="etape"><span class="rd"></span>Prête</span>
+    </div>
+    <div class="ticket">
+      ${c.lignes.map(l => `
+        <div style="display:flex;justify-content:space-between;gap:10px;margin:0 0 8px">
+          <span>${l.qty}× ${esc(l.nom)}${l.details.length?`<em style="display:block;font-style:normal;color:var(--gris-2);font-size:12.5px">${esc(l.details.join(" · "))}</em>`:""}</span>
+          <span style="color:var(--gris)">${euro(l.prixUnit*l.qty)}</span>
+        </div>`).join("")}
+      <div style="height:1px;background:rgba(255,255,255,.1);margin:10px 0"></div>
+      <div style="display:flex;justify-content:space-between;font-weight:700">
+        <span>Total ${c.paiement==="ligne"?"payé":"à régler"}</span><span>${euro(c.total)}</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:24px;flex-wrap:wrap;justify-content:center;width:100%;max-width:460px">
+      <button class="btn btn-jaune" data-action="accueil">Nouvelle commande</button>
+      <button class="btn btn-creux btn-s" data-action="cuisine">Voir la vue cuisine</button>
+    </div>
+  </div>`;
+}
+
+function vueCuisine(){
+  const enCours = state.commandes.filter(c => c.statut !== "prete").length;
+  return `
+  <div class="ecran">
+    <header class="barre">
+      <button class="rond" data-action="accueil" aria-label="Revenir à l'accueil">←</button>
+      <div>
+        <div class="titre" style="font-size:21px">Commandes du service</div>
+        <div style="font-size:12.5px;color:var(--gris)">Ce que voit l'équipe dans le camion</div>
+      </div>
+      <div class="barre-droite"><span class="mode-actif">${enCours} en cours</span></div>
+    </header>
+    <div class="filet"></div>
+    ${state.commandes.length
+      ? `<div class="cuisine">${state.commandes.map(tk).join("")}</div>`
+      : `<div class="vide" style="padding:48px 20px">Aucune commande pour l'instant.<br>Passez-en une depuis l'accueil, elle apparaît ici en direct.</div>`}
+  </div>`;
+}
+function tk(c){
+  return `
+  <article class="tk ${c.statut}">
+    <div style="display:flex;justify-content:space-between;align-items:baseline">
+      <span class="num">#${esc(c.numero)}</span>
+      <span style="color:var(--jaune);font-weight:700">${hm(c.creneau)}</span>
+    </div>
+    <div style="font-size:13.5px;color:var(--gris)">${esc(c.client.prenom||"Client")} · ${c.mode==="livraison"?"livraison":"à emporter"} · ${c.paiement==="ligne"?"payé en ligne":"à encaisser"}</div>
+    <ul>
+      ${c.lignes.map(l => `<li>${l.qty}× ${esc(l.nom)}${l.details.length?`<em>${esc(l.details.join(" · "))}</em>`:""}</li>`).join("")}
+    </ul>
+    ${c.client.note ? `<div style="font-size:13.5px;color:var(--magenta)">Note : ${esc(c.client.note)}</div>` : ""}
+    <div class="actions">
+      <button data-action="statut" data-num="${c.numero}" data-statut="prepa" aria-pressed="${c.statut==="prepa"}">En préparation</button>
+      <button data-action="statut" data-num="${c.numero}" data-statut="prete" aria-pressed="${c.statut==="prete"}">Prête</button>
+    </div>
+  </article>`;
+}
+
+/* =========================================================================
+   11) ACTIONS
+   ========================================================================= */
+function ouvrirFiche(id){
+  const p = produit(id);
+  if (!p) return;
+  state.fiche = p; state.qtyFiche = 1; state.choix = {};
+  if (p.prixMenu) state.choix.formule = "seul";
+  (p.groupes||[]).forEach(g => {
+    const G = GROUPES[g]; if (!G) return;
+    if (G.type === "multi") state.choix[g] = [];
+    if (G.type === "unique" && G.requis) state.choix[g] = G.options[0].id;
+  });
+  render();
+}
+function choisirOption(gid, val){
+  if (gid === "formule"){
+    state.choix.formule = val;
+    if (val === "menu"){
+      if (!state.choix.accomp)  state.choix.accomp  = GROUPES.accomp.options[0].id;
+      if (!state.choix.boisson) state.choix.boisson = GROUPES.boisson.options[0].id;
+    }
+    return;
+  }
+  const G = GROUPES[gid]; if (!G) return;
+  if (G.type === "unique"){ state.choix[gid] = val; return; }
+  const sel = state.choix[gid] || [];
+  const i = sel.indexOf(val);
+  if (i >= 0) sel.splice(i,1);
+  else { if (G.max && sel.length >= G.max) { toast("Maximum "+G.max+" sauces"); return; } sel.push(val); }
+  state.choix[gid] = sel;
+}
+function detailsLisibles(){
+  const p = state.fiche, out = [];
+  if (p.prixMenu) out.push(state.choix.formule === "menu" ? "En menu" : "Seul");
+  groupesDuProduit(p).forEach(gid => {
+    if (gid === "formule") return;
+    const G = GROUPES[gid]; if (!G) return;
+    if (G.type === "unique"){
+      const o = G.options.find(o => o.id === state.choix[gid]);
+      if (o) out.push(o.nom);
+    } else {
+      (state.choix[gid]||[]).forEach(id => {
+        const o = G.options.find(o => o.id === id);
+        if (o) out.push(o.nom);
+      });
+    }
+  });
+  return out;
+}
+function ajouterAuPanier(){
+  const p = state.fiche;
+  const details = detailsLisibles();
+  ajouter({cle:p.id+"|"+details.join("|"), produitId:p.id, nom:p.nom,
+           details, prixUnit:prixFiche(), qty:state.qtyFiche});
+  const nom = p.nom;
+  state.fiche = null;
+  render();
+  toast(nom + " ajouté");
+}
+function ajoutRapide(id){
+  const p = produit(id); if (!p) return;
+  ajouter(ligneProduit(id, "seul", p.prixMenu ? ["Seul"] : [], p.prix, 1));
+  render();
+  toast(p.nom + " ajouté");
+}
+function toast(txt){
+  document.querySelectorAll(".toast").forEach(t => t.remove());
+  const t = document.createElement("div");
+  t.className = "toast"; t.textContent = txt; t.setAttribute("role","status");
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 1700);
+}
+function passerCommande(){
+  if (!commandeValide()) return;
+  state.compteur++;
+  const cmd = {
+    numero: "A" + state.compteur,
+    creneau: state.creneau, mode: state.mode, paiement: state.paiement,
+    client: Object.assign({}, state.client),
+    lignes: state.panier.map(l => Object.assign({}, l)),
+    total: totalPanier(), statut: "recue", heure: new Date().toISOString()
+  };
+  state.commandes.unshift(cmd);
+  state.derniere = cmd;
+  state.panier = [];
+  state.creneau = null;
+  state.client = {prenom:state.client.prenom, tel:state.client.tel, adresse:state.client.adresse, note:""};
+  state.ecran = "confirmation";
+  sauver(); render();
+}
+
+/* =========================================================================
+   12) ÉVÉNEMENTS
+   ========================================================================= */
+app.addEventListener("click", e => {
+  const cible = e.target.closest("[data-action]");
+  if (!cible) return;
+  const a = cible.dataset.action;
+
+  switch(a){
+    case "demarrer":
+      state.mode = cible.dataset.mode; state.ecran = "menu"; sauver(); render(); break;
+    case "accueil":
+      state.ecran = "accueil"; state.fiche = null; state.assistant = null; state.panierOuvert = false; render(); break;
+    case "menu":
+      state.ecran = "menu"; state.panierOuvert = false; render(); break;
+    case "cuisine":
+      state.ecran = "cuisine"; state.assistant = null; render(); break;
+    case "commande":
+      if (!state.panier.length || !minimumOk()) break;
+      state.ecran = "commande"; state.panierOuvert = false; render(); break;
+    case "cat":
+      state.cat = cible.dataset.cat; render();
+      window.scrollTo({top:0, behavior:"smooth"});
+      break;
+
+    case "ouvrir": ouvrirFiche(cible.dataset.id); break;
+    case "rapide": ajoutRapide(cible.dataset.id); break;
+    case "fermer":
+      if (state.fiche) state.fiche = null;
+      else if (state.assistant) state.assistant = null;
+      else state.panierOuvert = false;
+      render(); break;
+    case "fermer-voile":
+      if (e.target === cible){
+        if (state.fiche) state.fiche = null;
+        else if (state.assistant) state.assistant = null;
+        else state.panierOuvert = false;
+        render();
+      }
+      break;
+
+    case "opt": choisirOption(cible.dataset.groupe, cible.dataset.valeur); render(); break;
+    case "qty-fiche": state.qtyFiche = Math.max(1, state.qtyFiche + Number(cible.dataset.delta)); render(); break;
+    case "ajouter": ajouterAuPanier(); break;
+
+    case "ouvrir-panier": state.panierOuvert = true; render(); break;
+    case "qty-ligne": {
+      const l = state.panier.find(x => x.uid === cible.dataset.uid);
+      if (!l) break;
+      l.qty += Number(cible.dataset.delta);
+      if (l.qty <= 0) state.panier = state.panier.filter(x => x.uid !== l.uid);
+      if (!state.panier.length) state.panierOuvert = false;
+      sauver(); render(); break;
+    }
+    case "vider": state.panier = []; state.panierOuvert = false; sauver(); render(); break;
+
+    case "creneau": state.creneau = cible.dataset.h; render(); break;
+    case "paiement": state.paiement = cible.dataset.mode; render(); break;
+    case "commander": passerCommande(); break;
+    case "statut": {
+      const c = state.commandes.find(x => x.numero === cible.dataset.num);
+      if (c) c.statut = cible.dataset.statut;
+      sauver(); render(); break;
+    }
+
+    /* --- assistant --- */
+    case "assistant": ouvrirAssistant(); break;
+    case "ass-rep": repondre(cible.dataset.val); break;
+    case "ass-faq": {
+      const f = FAQ[Number(cible.dataset.i)];
+      state.assistant.fil.push({qui:"moi", txt:f.q}, {qui:"ass", txt:f.r()});
+      render(); break;
+    }
+    case "ass-autre": {
+      const A = state.assistant;
+      A.variante = (A.variante + 1) % 4;
+      A.propo = composer(A.rep, A.variante);
+      A.fil.push({qui:"moi", txt:"Une autre idée"}, {qui:"ass", txt:A.propo.pourquoi});
+      render(); break;
+    }
+    case "ass-valider": {
+      const A = state.assistant;
+      A.propo.lignes.forEach(l => ajouter(Object.assign({}, l)));
+      state.assistant = null; state.ecran = "menu";
+      render(); toast("Ajouté au panier"); break;
+    }
+    case "ass-carte": state.assistant = null; state.ecran = "menu"; render(); break;
+  }
+});
+
+document.addEventListener("keydown", e => {
+  if (e.key !== "Escape") return;
+  if (state.fiche) state.fiche = null;
+  else if (state.assistant) state.assistant = null;
+  else if (state.panierOuvert) state.panierOuvert = false;
+  else return;
+  render();
+});
+window.addEventListener("resize", mesurerBarre);
+
+/* =========================================================================
+   13) DÉMARRAGE
+   ========================================================================= */
+relire();
+render();
+</script>
+</body>
+</html>
