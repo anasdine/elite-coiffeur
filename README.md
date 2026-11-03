@@ -20,6 +20,7 @@ Page unique, statique, sans back-end : elle peut être servie telle quelle par G
 | `assets/` | Photos, polices, logos, image de partage |
 | `.nojekyll` | Désactive Jekyll — **ne pas supprimer** (voir plus bas) |
 | `elite-barber-v1.html` | Ancienne version de la page (archive, non liée au site) |
+| `one-snack/` | **Autre démo :** borne de commande du food truck ONE SNACK (Colmar) — dossier autonome, voir `one-snack/README.md` |
 | `logo.html` | Planche du logo (archive, non liée au site) |
 
 Tous les chemins sont **relatifs** : le site fonctionne aussi bien à la racine
